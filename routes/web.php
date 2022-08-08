@@ -1,5 +1,15 @@
 <?php
 
+Route::get('generate', 'PendaftarController@generate')->name('generate');
+Route::post('beli', 'PendaftarController@beli')->name('beli');
+// Route::post('notification', 'PendaftarController@notificationHandler')->name('notificationHandler');
+
+Route::view('finish','finish');
+Route::view('unfinish', 'unfinish');
+Route::view('error', 'error');
+
+Route::post('bayar', 'PendaftarController@bayar')->name('bayar');
+
 Route::redirect('/', '/login');
 Route::get('/home', function () {
     if (session('status')) {
