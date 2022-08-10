@@ -32,7 +32,7 @@ class Transaksi extends Model implements HasMedia
 
     protected $dates = [
         'created_at',
-        'updated_at',
+        'updated_at',   
         'deleted_at',
     ];
 

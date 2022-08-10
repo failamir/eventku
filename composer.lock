@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4f61912307bccc74a8934adfc521b052",
+    "content-hash": "0791d5af539e9c600b1dd9c96ce28b12",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1995,6 +1995,114 @@
                 }
             ],
             "time": "2022-05-18T15:52:06+00:00"
+        },
+        {
+            "name": "midtrans/midtrans-php",
+            "version": "2.5.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Midtrans/midtrans-php.git",
+                "reference": "a1ad0c824449ca8c68c4cf11b3417ad518311d2b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Midtrans/midtrans-php/zipball/a1ad0c824449ca8c68c4cf11b3417ad518311d2b",
+                "reference": "a1ad0c824449ca8c68c4cf11b3417ad518311d2b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "5.7.*",
+                "psy/psysh": "0.4.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Midtrans\\": "Midtrans/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andri Setiawan",
+                    "email": "andri.setiawan@veritrans.co.id"
+                },
+                {
+                    "name": "Alvin Litani",
+                    "email": "alvin.litani@veritrans.co.id"
+                },
+                {
+                    "name": "Ismail Faruqi",
+                    "email": "ismail.faruqi@veritrans.co.id"
+                }
+            ],
+            "description": "PHP Wrapper for Midtrans Payment API.",
+            "homepage": "https://midtrans.com",
+            "support": {
+                "issues": "https://github.com/Midtrans/midtrans-php/issues",
+                "source": "https://github.com/Midtrans/midtrans-php/tree/2.5.2"
+            },
+            "time": "2021-08-23T08:52:05+00:00"
+        },
+        {
+            "name": "midtrans/snap",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Midtrans/Midtrans-Magento2.git",
+                "reference": "75bfd290d0347cf3368c46da516e120336750d64"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Midtrans/Midtrans-Magento2/zipball/75bfd290d0347cf3368c46da516e120336750d64",
+                "reference": "75bfd290d0347cf3368c46da516e120336750d64",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5 || ^7.0 || ^8.0"
+            },
+            "default-branch": true,
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Midtrans\\Snap\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Zaki Ibrahim",
+                    "email": "zaki.ibrahim@midtrans.com",
+                    "homepage": "https://midtrans.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Midtrans Accept Online Payment Magento 2 module",
+            "keywords": [
+                "magento 2",
+                "magento2",
+                "midtrans",
+                "midtrans snap",
+                "snap"
+            ],
+            "support": {
+                "issues": "https://github.com/Midtrans/Midtrans-Magento2/issues",
+                "source": "https://github.com/Midtrans/Midtrans-Magento2/tree/v2.6.6"
+            },
+            "time": "2022-05-18T04:26:49+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -8930,12 +9038,14 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "midtrans/snap": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.0.2"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.0.0"
 }
