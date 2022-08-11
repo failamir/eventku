@@ -18,7 +18,7 @@ class TiketApiController extends Controller
 
     public function index()
     {
-        // abort_if(Gate::denies('tiket_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('tiket_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new TiketResource(Tiket::with(['peserta'])->get());
     }
@@ -27,10 +27,6 @@ class TiketApiController extends Controller
     {
         $tiket = Tiket::create($request->all());
 
-        if ($request->input('qr', false)) {
-            $tiket->addMedia(storage_path('tmp/uploads/' . basename($request->input('qr'))))->toMediaCollection('qr');
-        }
-
         return (new TiketResource($tiket))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
@@ -38,7 +34,7 @@ class TiketApiController extends Controller
 
     public function show(Tiket $tiket)
     {
-        // abort_if(Gate::denies('tiket_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('tiket_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new TiketResource($tiket->load(['peserta']));
     }
@@ -46,17 +42,6 @@ class TiketApiController extends Controller
     public function update(UpdateTiketRequest $request, Tiket $tiket)
     {
         $tiket->update($request->all());
-
-        if ($request->input('qr', false)) {
-            if (!$tiket->qr || $request->input('qr') !== $tiket->qr->file_name) {
-                if ($tiket->qr) {
-                    $tiket->qr->delete();
-                }
-                $tiket->addMedia(storage_path('tmp/uploads/' . basename($request->input('qr'))))->toMediaCollection('qr');
-            }
-        } elseif ($tiket->qr) {
-            $tiket->qr->delete();
-        }
 
         return (new TiketResource($tiket))
             ->response()

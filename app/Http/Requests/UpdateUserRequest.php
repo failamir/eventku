@@ -32,6 +32,18 @@ class UpdateUserRequest extends FormRequest
                 'required',
                 'array',
             ],
+            'nik' => [
+                'string',
+                'nullable',
+            ],
+            'no_hp' => [
+                'string',
+                'nullable',
+            ],
+            'uid' => [
+                'string',
+                'nullable',
+            ],
         ];
     }
 }

@@ -13,9 +13,14 @@ class CreateTiketsTable extends Migration
             $table->string('no_tiket')->nullable();
             $table->string('checkin')->nullable();
             $table->longText('notes')->nullable();
+            $table->string('qr')->nullable();
+            $table->string('status')->nullable();
             $table->string('status_payment')->nullable();
-            $table->string('payment_type')->nullable();
-            $table->string('total_bayar')->nullable();
+            $table->string('type_payment')->nullable();
+            $table->string('no_hp')->nullable();
+            $table->string('nama')->nullable();
+            $table->string('nik')->nullable();
+            $table->string('email')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

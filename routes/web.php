@@ -1,15 +1,5 @@
 <?php
 
-Route::get('generate', 'PendaftarController@generate')->name('generate');
-Route::post('beli', 'PendaftarController@beli')->name('beli');
-// Route::post('notification', 'PendaftarController@notificationHandler')->name('notificationHandler');
-
-Route::view('finish','finish');
-Route::view('unfinish', 'unfinish');
-Route::view('error', 'error');
-
-Route::post('bayar', 'PendaftarController@bayar')->name('bayar');
-
 Route::redirect('/', '/login');
 Route::get('/home', function () {
     if (session('status')) {
@@ -33,18 +23,24 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Users
     Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');
+    Route::post('users/parse-csv-import', 'UsersController@parseCsvImport')->name('users.parseCsvImport');
+    Route::post('users/process-csv-import', 'UsersController@processCsvImport')->name('users.processCsvImport');
     Route::resource('users', 'UsersController');
 
     // Tiket
     Route::delete('tikets/destroy', 'TiketController@massDestroy')->name('tikets.massDestroy');
     Route::post('tikets/media', 'TiketController@storeMedia')->name('tikets.storeMedia');
     Route::post('tikets/ckmedia', 'TiketController@storeCKEditorImages')->name('tikets.storeCKEditorImages');
+    Route::post('tikets/parse-csv-import', 'TiketController@parseCsvImport')->name('tikets.parseCsvImport');
+    Route::post('tikets/process-csv-import', 'TiketController@processCsvImport')->name('tikets.processCsvImport');
     Route::resource('tikets', 'TiketController');
 
     // Event
     Route::delete('events/destroy', 'EventController@massDestroy')->name('events.massDestroy');
     Route::post('events/media', 'EventController@storeMedia')->name('events.storeMedia');
     Route::post('events/ckmedia', 'EventController@storeCKEditorImages')->name('events.storeCKEditorImages');
+    Route::post('events/parse-csv-import', 'EventController@parseCsvImport')->name('events.parseCsvImport');
+    Route::post('events/process-csv-import', 'EventController@processCsvImport')->name('events.processCsvImport');
     Route::resource('events', 'EventController');
 
     // Banner

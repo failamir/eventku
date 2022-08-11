@@ -29,6 +29,12 @@ class UpdateTransaksiRequest extends FormRequest
                 'string',
                 'nullable',
             ],
+            'tikets.*' => [
+                'integer',
+            ],
+            'tikets' => [
+                'array',
+            ],
         ];
     }
 }
