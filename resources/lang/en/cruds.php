@@ -107,6 +107,8 @@ return [
             'nik_helper'            => ' ',
             'email'                 => 'Email',
             'email_helper'          => ' ',
+            'event'                 => 'Event',
+            'event_helper'          => ' ',
         ],
     ],
     'event' => [

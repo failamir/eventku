@@ -104,10 +104,18 @@
                 {{ trans('cruds.transaksi.title') }}
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#event_tikets" role="tab" data-toggle="tab">
+                {{ trans('cruds.tiket.title') }}
+            </a>
+        </li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane" role="tabpanel" id="event_transaksis">
             @includeIf('admin.events.relationships.eventTransaksis', ['transaksis' => $event->eventTransaksis])
+        </div>
+        <div class="tab-pane" role="tabpanel" id="event_tikets">
+            @includeIf('admin.events.relationships.eventTikets', ['tikets' => $event->eventTikets])
         </div>
     </div>
 </div>
