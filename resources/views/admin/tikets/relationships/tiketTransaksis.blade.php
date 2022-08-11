@@ -28,18 +28,6 @@
                             {{ trans('cruds.transaksi.fields.invoice') }}
                         </th>
                         <th>
-                            {{ trans('cruds.transaksi.fields.event') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.event.fields.harga') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.transaksi.fields.tiket') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.tiket.fields.total_bayar') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.transaksi.fields.peserta') }}
                         </th>
                         <th>
@@ -53,6 +41,18 @@
                         </th>
                         <th>
                             {{ trans('cruds.transaksi.fields.status') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.transaksi.fields.type') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.transaksi.fields.tiket') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.transaksi.fields.event') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.event.fields.event_code') }}
                         </th>
                         <th>
                             &nbsp;
@@ -72,18 +72,6 @@
                                 {{ $transaksi->invoice ?? '' }}
                             </td>
                             <td>
-                                {{ $transaksi->event->nama_event ?? '' }}
-                            </td>
-                            <td>
-                                {{ $transaksi->event->harga ?? '' }}
-                            </td>
-                            <td>
-                                {{ $transaksi->tiket->no_tiket ?? '' }}
-                            </td>
-                            <td>
-                                {{ $transaksi->tiket->total_bayar ?? '' }}
-                            </td>
-                            <td>
                                 {{ $transaksi->peserta->name ?? '' }}
                             </td>
                             <td>
@@ -97,6 +85,20 @@
                             </td>
                             <td>
                                 {{ App\Models\Transaksi::STATUS_SELECT[$transaksi->status] ?? '' }}
+                            </td>
+                            <td>
+                                {{ App\Models\Transaksi::TYPE_SELECT[$transaksi->type] ?? '' }}
+                            </td>
+                            <td>
+                                @foreach($transaksi->tikets as $key => $item)
+                                    <span class="badge badge-info">{{ $item->no_tiket }}</span>
+                                @endforeach
+                            </td>
+                            <td>
+                                {{ $transaksi->event->nama_event ?? '' }}
+                            </td>
+                            <td>
+                                {{ $transaksi->event->event_code ?? '' }}
                             </td>
                             <td>
                                 @can('transaksi_show')

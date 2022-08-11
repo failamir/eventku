@@ -49,20 +49,36 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.user.fields.approved') }}
-                        </th>
-                        <td>
-                            <input type="checkbox" disabled="disabled" {{ $user->approved ? 'checked' : '' }}>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.user.fields.roles') }}
                         </th>
                         <td>
                             @foreach($user->roles as $key => $roles)
                                 <span class="label label-info">{{ $roles->title }}</span>
                             @endforeach
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.nik') }}
+                        </th>
+                        <td>
+                            {{ $user->nik }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.no_hp') }}
+                        </th>
+                        <td>
+                            {{ $user->no_hp }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.uid') }}
+                        </th>
+                        <td>
+                            {{ $user->uid }}
                         </td>
                     </tr>
                 </tbody>

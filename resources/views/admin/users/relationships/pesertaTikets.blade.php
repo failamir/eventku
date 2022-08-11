@@ -37,16 +37,28 @@
                             {{ trans('cruds.tiket.fields.checkin') }}
                         </th>
                         <th>
+                            {{ trans('cruds.tiket.fields.qr') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.tiket.fields.status') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.tiket.fields.status_payment') }}
                         </th>
                         <th>
-                            {{ trans('cruds.tiket.fields.payment_type') }}
+                            {{ trans('cruds.tiket.fields.type_payment') }}
                         </th>
                         <th>
-                            {{ trans('cruds.tiket.fields.total_bayar') }}
+                            {{ trans('cruds.tiket.fields.no_hp') }}
                         </th>
                         <th>
-                            {{ trans('cruds.tiket.fields.qr') }}
+                            {{ trans('cruds.tiket.fields.nama') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.tiket.fields.nik') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.tiket.fields.email') }}
                         </th>
                         <th>
                             &nbsp;
@@ -75,20 +87,28 @@
                                 {{ App\Models\Tiket::CHECKIN_SELECT[$tiket->checkin] ?? '' }}
                             </td>
                             <td>
+                                {{ $tiket->qr ?? '' }}
+                            </td>
+                            <td>
+                                {{ App\Models\Tiket::STATUS_SELECT[$tiket->status] ?? '' }}
+                            </td>
+                            <td>
                                 {{ App\Models\Tiket::STATUS_PAYMENT_SELECT[$tiket->status_payment] ?? '' }}
                             </td>
                             <td>
-                                {{ App\Models\Tiket::PAYMENT_TYPE_SELECT[$tiket->payment_type] ?? '' }}
+                                {{ App\Models\Tiket::TYPE_PAYMENT_SELECT[$tiket->type_payment] ?? '' }}
                             </td>
                             <td>
-                                {{ $tiket->total_bayar ?? '' }}
+                                {{ $tiket->no_hp ?? '' }}
                             </td>
                             <td>
-                                @if($tiket->qr)
-                                    <a href="{{ $tiket->qr->getUrl() }}" target="_blank" style="display: inline-block">
-                                        <img src="{{ $tiket->qr->getUrl('thumb') }}">
-                                    </a>
-                                @endif
+                                {{ $tiket->nama ?? '' }}
+                            </td>
+                            <td>
+                                {{ $tiket->nik ?? '' }}
+                            </td>
+                            <td>
+                                {{ $tiket->email ?? '' }}
                             </td>
                             <td>
                                 @can('tiket_show')

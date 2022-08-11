@@ -21,7 +21,23 @@ class StoreTiketRequest extends FormRequest
                 'string',
                 'nullable',
             ],
-            'total_bayar' => [
+            'qr' => [
+                'string',
+                'nullable',
+            ],
+            'no_hp' => [
+                'string',
+                'nullable',
+            ],
+            'nama' => [
+                'string',
+                'nullable',
+            ],
+            'nik' => [
+                'string',
+                'nullable',
+            ],
+            'email' => [
                 'string',
                 'nullable',
             ],

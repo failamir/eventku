@@ -6,6 +6,10 @@
             <a class="btn btn-success" href="{{ route('admin.tikets.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.tiket.title_singular') }}
             </a>
+            <button class="btn btn-warning" data-toggle="modal" data-target="#csvImportModal">
+                {{ trans('global.app_csvImport') }}
+            </button>
+            @include('csvImport.modal', ['model' => 'Tiket', 'route' => 'admin.tikets.parseCsvImport'])
         </div>
     </div>
 @endcan
@@ -38,16 +42,28 @@
                             {{ trans('cruds.tiket.fields.checkin') }}
                         </th>
                         <th>
+                            {{ trans('cruds.tiket.fields.qr') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.tiket.fields.status') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.tiket.fields.status_payment') }}
                         </th>
                         <th>
-                            {{ trans('cruds.tiket.fields.payment_type') }}
+                            {{ trans('cruds.tiket.fields.type_payment') }}
                         </th>
                         <th>
-                            {{ trans('cruds.tiket.fields.total_bayar') }}
+                            {{ trans('cruds.tiket.fields.no_hp') }}
                         </th>
                         <th>
-                            {{ trans('cruds.tiket.fields.qr') }}
+                            {{ trans('cruds.tiket.fields.nama') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.tiket.fields.nik') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.tiket.fields.email') }}
                         </th>
                         <th>
                             &nbsp;
@@ -81,6 +97,17 @@
                             </select>
                         </td>
                         <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <select class="search" strict="true">
+                                <option value>{{ trans('global.all') }}</option>
+                                @foreach(App\Models\Tiket::STATUS_SELECT as $key => $item)
+                                    <option value="{{ $item }}">{{ $item }}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>
                             <select class="search" strict="true">
                                 <option value>{{ trans('global.all') }}</option>
                                 @foreach(App\Models\Tiket::STATUS_PAYMENT_SELECT as $key => $item)
@@ -91,7 +118,7 @@
                         <td>
                             <select class="search" strict="true">
                                 <option value>{{ trans('global.all') }}</option>
-                                @foreach(App\Models\Tiket::PAYMENT_TYPE_SELECT as $key => $item)
+                                @foreach(App\Models\Tiket::TYPE_PAYMENT_SELECT as $key => $item)
                                     <option value="{{ $item }}">{{ $item }}</option>
                                 @endforeach
                             </select>
@@ -100,6 +127,13 @@
                             <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                         </td>
                         <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                         </td>
                         <td>
                         </td>
@@ -127,20 +161,28 @@
                                 {{ App\Models\Tiket::CHECKIN_SELECT[$tiket->checkin] ?? '' }}
                             </td>
                             <td>
+                                {{ $tiket->qr ?? '' }}
+                            </td>
+                            <td>
+                                {{ App\Models\Tiket::STATUS_SELECT[$tiket->status] ?? '' }}
+                            </td>
+                            <td>
                                 {{ App\Models\Tiket::STATUS_PAYMENT_SELECT[$tiket->status_payment] ?? '' }}
                             </td>
                             <td>
-                                {{ App\Models\Tiket::PAYMENT_TYPE_SELECT[$tiket->payment_type] ?? '' }}
+                                {{ App\Models\Tiket::TYPE_PAYMENT_SELECT[$tiket->type_payment] ?? '' }}
                             </td>
                             <td>
-                                {{ $tiket->total_bayar ?? '' }}
+                                {{ $tiket->no_hp ?? '' }}
                             </td>
                             <td>
-                                @if($tiket->qr)
-                                    <a href="{{ $tiket->qr->getUrl() }}" target="_blank" style="display: inline-block">
-                                        <img src="{{ $tiket->qr->getUrl('thumb') }}">
-                                    </a>
-                                @endif
+                                {{ $tiket->nama ?? '' }}
+                            </td>
+                            <td>
+                                {{ $tiket->nik ?? '' }}
+                            </td>
+                            <td>
+                                {{ $tiket->email ?? '' }}
                             </td>
                             <td>
                                 @can('tiket_show')

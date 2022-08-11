@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\CsvImportTrait;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyTiketRequest;
 use App\Http\Requests\StoreTiketRequest;
@@ -17,12 +18,13 @@ use Symfony\Component\HttpFoundation\Response;
 class TiketController extends Controller
 {
     use MediaUploadingTrait;
+    use CsvImportTrait;
 
     public function index()
     {
         abort_if(Gate::denies('tiket_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $tikets = Tiket::with(['peserta', 'media'])->get();
+        $tikets = Tiket::with(['peserta'])->get();
 
         $users = User::get();
 
@@ -41,10 +43,6 @@ class TiketController extends Controller
     public function store(StoreTiketRequest $request)
     {
         $tiket = Tiket::create($request->all());
-
-        if ($request->input('qr', false)) {
-            $tiket->addMedia(storage_path('tmp/uploads/' . basename($request->input('qr'))))->toMediaCollection('qr');
-        }
 
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $tiket->id]);
@@ -67,17 +65,6 @@ class TiketController extends Controller
     public function update(UpdateTiketRequest $request, Tiket $tiket)
     {
         $tiket->update($request->all());
-
-        if ($request->input('qr', false)) {
-            if (!$tiket->qr || $request->input('qr') !== $tiket->qr->file_name) {
-                if ($tiket->qr) {
-                    $tiket->qr->delete();
-                }
-                $tiket->addMedia(storage_path('tmp/uploads/' . basename($request->input('qr'))))->toMediaCollection('qr');
-            }
-        } elseif ($tiket->qr) {
-            $tiket->qr->delete();
-        }
 
         return redirect()->route('admin.tikets.index');
     }

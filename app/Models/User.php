@@ -4,6 +4,7 @@ namespace App\Models;
 
 use \DateTimeInterface;
 use App\Notifications\VerifyUserNotification;
+use App\Traits\Auditable;
 use Carbon\Carbon;
 use Hash;
 use Illuminate\Auth\Notifications\ResetPassword;
@@ -18,6 +19,7 @@ class User extends Authenticatable
 {
     use SoftDeletes;
     use Notifiable;
+    use Auditable;
     use HasFactory;
 
     public $table = 'users';
@@ -39,8 +41,10 @@ class User extends Authenticatable
         'email',
         'email_verified_at',
         'password',
-        'approved',
         'remember_token',
+        'nik',
+        'no_hp',
+        'uid',
         'created_at',
         'updated_at',
         'deleted_at',

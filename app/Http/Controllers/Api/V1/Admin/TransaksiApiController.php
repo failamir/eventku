@@ -18,14 +18,15 @@ class TransaksiApiController extends Controller
 
     public function index()
     {
-        // abort_if(Gate::denies('transaksi_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('transaksi_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new TransaksiResource(Transaksi::with(['event', 'tiket', 'peserta', 'created_by'])->get());
+        return new TransaksiResource(Transaksi::with(['peserta', 'tikets', 'event', 'created_by'])->get());
     }
 
     public function store(StoreTransaksiRequest $request)
     {
         $transaksi = Transaksi::create($request->all());
+        $transaksi->tikets()->sync($request->input('tikets', []));
 
         return (new TransaksiResource($transaksi))
             ->response()
@@ -34,14 +35,15 @@ class TransaksiApiController extends Controller
 
     public function show(Transaksi $transaksi)
     {
-        // abort_if(Gate::denies('transaksi_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('transaksi_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new TransaksiResource($transaksi->load(['event', 'tiket', 'peserta', 'created_by']));
+        return new TransaksiResource($transaksi->load(['peserta', 'tikets', 'event', 'created_by']));
     }
 
     public function update(UpdateTransaksiRequest $request, Transaksi $transaksi)
     {
         $transaksi->update($request->all());
+        $transaksi->tikets()->sync($request->input('tikets', []));
 
         return (new TransaksiResource($transaksi))
             ->response()

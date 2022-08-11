@@ -26,20 +26,26 @@ class TransaksiController extends Controller
     {
         abort_if(Gate::denies('transaksi_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $transaksis = Transaksi::with(['event', 'tiket', 'peserta', 'created_by'])->get();
+        $transaksis = Transaksi::with(['peserta', 'tikets', 'event', 'created_by'])->get();
 
-        return view('admin.transaksis.index', compact('transaksis'));
+        $users = User::get();
+
+        $tikets = Tiket::get();
+
+        $events = Event::get();
+
+        return view('admin.transaksis.index', compact('events', 'tikets', 'transaksis', 'users'));
     }
 
     public function create()
     {
         abort_if(Gate::denies('transaksi_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $events = Event::pluck('nama_event', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $tikets = Tiket::pluck('no_tiket', 'id')->prepend(trans('global.pleaseSelect'), '');
-
         $pesertas = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $tikets = Tiket::pluck('no_tiket', 'id');
+
+        $events = Event::pluck('nama_event', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         return view('admin.transaksis.create', compact('events', 'pesertas', 'tikets'));
     }
@@ -47,7 +53,7 @@ class TransaksiController extends Controller
     public function store(StoreTransaksiRequest $request)
     {
         $transaksi = Transaksi::create($request->all());
-
+        $transaksi->tikets()->sync($request->input('tikets', []));
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $transaksi->id]);
         }
@@ -59,13 +65,13 @@ class TransaksiController extends Controller
     {
         abort_if(Gate::denies('transaksi_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $events = Event::pluck('nama_event', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $tikets = Tiket::pluck('no_tiket', 'id')->prepend(trans('global.pleaseSelect'), '');
-
         $pesertas = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $transaksi->load('event', 'tiket', 'peserta', 'created_by');
+        $tikets = Tiket::pluck('no_tiket', 'id');
+
+        $events = Event::pluck('nama_event', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $transaksi->load('peserta', 'tikets', 'event', 'created_by');
 
         return view('admin.transaksis.edit', compact('events', 'pesertas', 'tikets', 'transaksi'));
     }
@@ -73,6 +79,7 @@ class TransaksiController extends Controller
     public function update(UpdateTransaksiRequest $request, Transaksi $transaksi)
     {
         $transaksi->update($request->all());
+        $transaksi->tikets()->sync($request->input('tikets', []));
 
         return redirect()->route('admin.transaksis.index');
     }
@@ -81,7 +88,7 @@ class TransaksiController extends Controller
     {
         abort_if(Gate::denies('transaksi_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $transaksi->load('event', 'tiket', 'peserta', 'created_by');
+        $transaksi->load('peserta', 'tikets', 'event', 'created_by');
 
         return view('admin.transaksis.show', compact('transaksi'));
     }

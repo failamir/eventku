@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use \DateTimeInterface;
+use App\Traits\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,31 +15,34 @@ class Tiket extends Model implements HasMedia
 {
     use SoftDeletes;
     use InteractsWithMedia;
+    use Auditable;
     use HasFactory;
 
-    public const CHECKIN_SELECT = [
-        'sudah' => 'sudah',
-        'belum' => 'belum',
+    public const STATUS_SELECT = [
+        'valid'   => 'valid',
+        'unvalid' => 'unvalid',
     ];
 
-    public const PAYMENT_TYPE_SELECT = [
-        'Cash'     => 'Cash',
-        'Transfer' => 'Transfer',
-        'QRIS'     => 'QRIS',
+    public const CHECKIN_SELECT = [
+        'sudah'    => 'sudah',
+        'belum'    => 'belum',
+        'terpakai' => 'terpakai',
+    ];
+
+    public const TYPE_PAYMENT_SELECT = [
+        'cash'     => 'cash',
+        'transfer' => 'transfer',
+        'qris'     => 'qris',
     ];
 
     public const STATUS_PAYMENT_SELECT = [
-        'Pending' => 'Pending',
-        'Success' => 'Success',
-        'Failed'  => 'Failed',
-        'Refund'  => 'Refund',
+        'success' => 'success',
+        'pending' => 'pending',
+        'cancel'  => 'cancel',
+        'refund'  => 'refund',
     ];
 
     public $table = 'tikets';
-
-    protected $appends = [
-        'qr',
-    ];
 
     protected $dates = [
         'created_at',
@@ -51,9 +55,14 @@ class Tiket extends Model implements HasMedia
         'peserta_id',
         'checkin',
         'notes',
+        'qr',
+        'status',
         'status_payment',
-        'payment_type',
-        'total_bayar',
+        'type_payment',
+        'no_hp',
+        'nama',
+        'nik',
+        'email',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -67,24 +76,12 @@ class Tiket extends Model implements HasMedia
 
     public function tiketTransaksis()
     {
-        return $this->hasMany(Transaksi::class, 'tiket_id', 'id');
+        return $this->belongsToMany(Transaksi::class);
     }
 
     public function peserta()
     {
         return $this->belongsTo(User::class, 'peserta_id');
-    }
-
-    public function getQrAttribute()
-    {
-        $file = $this->getMedia('qr')->last();
-        if ($file) {
-            $file->url       = $file->getUrl();
-            $file->thumbnail = $file->getUrl('thumb');
-            $file->preview   = $file->getUrl('preview');
-        }
-
-        return $file;
     }
 
     protected function serializeDate(DateTimeInterface $date)

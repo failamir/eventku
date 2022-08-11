@@ -33,22 +33,6 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.transaksi.fields.event') }}
-                        </th>
-                        <td>
-                            {{ $transaksi->event->nama_event ?? '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.transaksi.fields.tiket') }}
-                        </th>
-                        <td>
-                            {{ $transaksi->tiket->no_tiket ?? '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.transaksi.fields.peserta') }}
                         </th>
                         <td>
@@ -85,6 +69,32 @@
                         </th>
                         <td>
                             {{ App\Models\Transaksi::STATUS_SELECT[$transaksi->status] ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.transaksi.fields.type') }}
+                        </th>
+                        <td>
+                            {{ App\Models\Transaksi::TYPE_SELECT[$transaksi->type] ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.transaksi.fields.tiket') }}
+                        </th>
+                        <td>
+                            @foreach($transaksi->tikets as $key => $tiket)
+                                <span class="label label-info">{{ $tiket->no_tiket }}</span>
+                            @endforeach
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.transaksi.fields.event') }}
+                        </th>
+                        <td>
+                            {{ $transaksi->event->nama_event ?? '' }}
                         </td>
                     </tr>
                 </tbody>

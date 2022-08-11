@@ -33,18 +33,6 @@
                             {{ trans('cruds.transaksi.fields.invoice') }}
                         </th>
                         <th>
-                            {{ trans('cruds.transaksi.fields.event') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.event.fields.harga') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.transaksi.fields.tiket') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.tiket.fields.total_bayar') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.transaksi.fields.peserta') }}
                         </th>
                         <th>
@@ -60,8 +48,82 @@
                             {{ trans('cruds.transaksi.fields.status') }}
                         </th>
                         <th>
+                            {{ trans('cruds.transaksi.fields.type') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.transaksi.fields.tiket') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.transaksi.fields.event') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.event.fields.event_code') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
+                    </tr>
+                    <tr>
+                        <td>
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <select class="search">
+                                <option value>{{ trans('global.all') }}</option>
+                                @foreach($users as $key => $item)
+                                    <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <select class="search" strict="true">
+                                <option value>{{ trans('global.all') }}</option>
+                                @foreach(App\Models\Transaksi::STATUS_SELECT as $key => $item)
+                                    <option value="{{ $item }}">{{ $item }}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>
+                            <select class="search" strict="true">
+                                <option value>{{ trans('global.all') }}</option>
+                                @foreach(App\Models\Transaksi::TYPE_SELECT as $key => $item)
+                                    <option value="{{ $item }}">{{ $item }}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>
+                            <select class="search">
+                                <option value>{{ trans('global.all') }}</option>
+                                @foreach($tikets as $key => $item)
+                                    <option value="{{ $item->no_tiket }}">{{ $item->no_tiket }}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>
+                            <select class="search">
+                                <option value>{{ trans('global.all') }}</option>
+                                @foreach($events as $key => $item)
+                                    <option value="{{ $item->nama_event }}">{{ $item->nama_event }}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
                     </tr>
                 </thead>
                 <tbody>
@@ -77,18 +139,6 @@
                                 {{ $transaksi->invoice ?? '' }}
                             </td>
                             <td>
-                                {{ $transaksi->event->nama_event ?? '' }}
-                            </td>
-                            <td>
-                                {{ $transaksi->event->harga ?? '' }}
-                            </td>
-                            <td>
-                                {{ $transaksi->tiket->no_tiket ?? '' }}
-                            </td>
-                            <td>
-                                {{ $transaksi->tiket->total_bayar ?? '' }}
-                            </td>
-                            <td>
                                 {{ $transaksi->peserta->name ?? '' }}
                             </td>
                             <td>
@@ -102,6 +152,20 @@
                             </td>
                             <td>
                                 {{ App\Models\Transaksi::STATUS_SELECT[$transaksi->status] ?? '' }}
+                            </td>
+                            <td>
+                                {{ App\Models\Transaksi::TYPE_SELECT[$transaksi->type] ?? '' }}
+                            </td>
+                            <td>
+                                @foreach($transaksi->tikets as $key => $item)
+                                    <span class="badge badge-info">{{ $item->no_tiket }}</span>
+                                @endforeach
+                            </td>
+                            <td>
+                                {{ $transaksi->event->nama_event ?? '' }}
+                            </td>
+                            <td>
+                                {{ $transaksi->event->event_code ?? '' }}
                             </td>
                             <td>
                                 @can('transaksi_show')
@@ -183,6 +247,27 @@
           .columns.adjust();
   });
   
+let visibleColumnsIndexes = null;
+$('.datatable thead').on('input', '.search', function () {
+      let strict = $(this).attr('strict') || false
+      let value = strict && this.value ? "^" + this.value + "$" : this.value
+
+      let index = $(this).parent().index()
+      if (visibleColumnsIndexes !== null) {
+        index = visibleColumnsIndexes[index]
+      }
+
+      table
+        .column(index)
+        .search(value, strict)
+        .draw()
+  });
+table.on('column-visibility.dt', function(e, settings, column, state) {
+      visibleColumnsIndexes = []
+      table.columns(":visible").every(function(colIdx) {
+          visibleColumnsIndexes.push(colIdx);
+      });
+  })
 })
 
 </script>
