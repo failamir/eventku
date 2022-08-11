@@ -119,6 +119,14 @@
                             {{ $tiket->email }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.tiket.fields.event') }}
+                        </th>
+                        <td>
+                            {{ $tiket->event->nama_event ?? '' }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

@@ -56,6 +56,11 @@ class Event extends Model implements HasMedia
         return $this->hasMany(Transaksi::class, 'event_id', 'id');
     }
 
+    public function eventTikets()
+    {
+        return $this->hasMany(Tiket::class, 'event_id', 'id');
+    }
+
     public function getTanggalMulaiAttribute($value)
     {
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;

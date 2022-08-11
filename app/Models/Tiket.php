@@ -63,6 +63,7 @@ class Tiket extends Model implements HasMedia
         'nama',
         'nik',
         'email',
+        'event_id',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -82,6 +83,11 @@ class Tiket extends Model implements HasMedia
     public function peserta()
     {
         return $this->belongsTo(User::class, 'peserta_id');
+    }
+
+    public function event()
+    {
+        return $this->belongsTo(Event::class, 'event_id');
     }
 
     protected function serializeDate(DateTimeInterface $date)
