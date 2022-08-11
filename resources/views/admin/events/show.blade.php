@@ -65,14 +65,6 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.event.fields.deksripsi') }}
-                        </th>
-                        <td>
-                            {!! $event->deksripsi !!}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.event.fields.image') }}
                         </th>
                         <td>
@@ -81,6 +73,14 @@
                                     <img src="{{ $event->image->getUrl('thumb') }}">
                                 </a>
                             @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.event.fields.deskripsi') }}
+                        </th>
+                        <td>
+                            {!! $event->deskripsi !!}
                         </td>
                     </tr>
                 </tbody>

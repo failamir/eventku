@@ -125,8 +125,6 @@ return [
             'tanggal_mulai_helper'   => ' ',
             'tanggal_selesai'        => 'Tanggal Selesai',
             'tanggal_selesai_helper' => ' ',
-            'deksripsi'              => 'Deksripsi',
-            'deksripsi_helper'       => ' ',
             'image'                  => 'Image',
             'image_helper'           => ' ',
             'created_at'             => 'Created at',
@@ -135,6 +133,8 @@ return [
             'updated_at_helper'      => ' ',
             'deleted_at'             => 'Deleted at',
             'deleted_at_helper'      => ' ',
+            'deskripsi'              => 'Deskripsi',
+            'deskripsi_helper'       => ' ',
         ],
     ],
     'banner' => [

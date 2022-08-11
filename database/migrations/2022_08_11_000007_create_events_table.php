@@ -15,7 +15,7 @@ class CreateEventsTable extends Migration
             $table->string('harga')->nullable();
             $table->datetime('tanggal_mulai')->nullable();
             $table->datetime('tanggal_selesai')->nullable();
-            $table->longText('deksripsi')->nullable();
+            $table->longText('deskripsi')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
