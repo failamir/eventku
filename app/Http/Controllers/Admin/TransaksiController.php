@@ -52,6 +52,7 @@ class TransaksiController extends Controller
 
     public function store(StoreTransaksiRequest $request)
     {
+        // dd($request->all());
         $transaksi = Transaksi::create($request->all());
         $transaksi->tikets()->sync($request->input('tikets', []));
         if ($media = $request->input('ck-media', false)) {
