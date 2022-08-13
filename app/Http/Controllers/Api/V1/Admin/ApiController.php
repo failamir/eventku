@@ -58,14 +58,14 @@ class ApiController extends Controller {
     public function list_checkin() {
         // abort_if ( Gate::denies( 'pendaftar_access' ), Response::HTTP_FORBIDDEN, '403 Forbidden' );
 
-        return new UserResource( User::with( [ 'event' ] )->where( 'checkin', 'sudah' )->paginate( 10 ) );
+        return new UserResource( Tiket::with( [ 'event' ] )->where( 'checkin', 'sudah' )->paginate( 10 ) );
 
     }
 
     public function list_checkout() {
         // abort_if ( Gate::denies( 'pendaftar_access' ), Response::HTTP_FORBIDDEN, '403 Forbidden' );
 
-        return new UserResource( User::with( [ 'event' ] )->where( 'checkin', 'terpakai' )->paginate( 10 ) );
+        return new UserResource( Tiket::with( [ 'event' ] )->where( 'checkin', 'terpakai' )->paginate( 10 ) );
 
     }
 
@@ -298,7 +298,7 @@ class ApiController extends Controller {
             'uid',  $request
         )->first();
         
-        $transaksi = Transaksi::with('tikets')->where(
+        $transaksi = Transaksi::where(
             'peserta_id',  $user->id)->where('status', 'success')->get();
 
         // dd( $transaksi );
@@ -306,7 +306,8 @@ class ApiController extends Controller {
 
         foreach ($transaksi as $value) {
             foreach($value->tikets as $d){
-                $tiket[] = $d;
+                $t = Tiket::with('event')->find($d->id);
+                $tiket[] = $t;
             }
             // $value->tiket = Tiket::where(
             //     'id',  $value->tiket_id
