@@ -21,12 +21,12 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use stdClass;
-// use Validator;
+use Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Tiket;
-use Dotenv\Validator;
+// use Dotenv\Validator;
 
 class ApiController extends Controller
 {
@@ -62,16 +62,17 @@ class ApiController extends Controller
     public function list_checkin()
     {
         // abort_if ( Gate::denies( 'pendaftar_access' ), Response::HTTP_FORBIDDEN, '403 Forbidden' );
-
-        return new UserResource(Tiket::with(['event'])->where('checkin', 'sudah')->paginate(10));
+        $s = $_GET['status'];
+        if ($s == 'sudahdanterpakai') {return new UserResource(Tiket::with(['event'])->where('checkin','sudah')->orWhere('checkin','terpakai')->OrderBy('updated_at','ASC')->paginate(10));} 
+        else {return new UserResource(Tiket::with(['event'])->where('checkin',$s)->OrderBy('updated_at','ASC')->paginate(10));}
     }
 
-    public function list_checkout()
-    {
-        // abort_if ( Gate::denies( 'pendaftar_access' ), Response::HTTP_FORBIDDEN, '403 Forbidden' );
+    // public function list_checkout()
+    // {
+    //     // abort_if ( Gate::denies( 'pendaftar_access' ), Response::HTTP_FORBIDDEN, '403 Forbidden' );
 
-        return new UserResource(Tiket::with(['event'])->where('checkin', 'terpakai')->paginate(10));
-    }
+    //     return new UserResource(Tiket::with(['event'])->where('checkin', 'terpakai')->paginate(10));
+    // }
 
     public function create()
     {
@@ -89,22 +90,7 @@ class ApiController extends Controller
 
     public function beli(Request $request)
     {
-        // $u = ( int )$request->input( 'total_bayar' );
-
-        // for ( $u = 0; $u<$request->input( 'total_bayar' );
-        // $u++ ) {
-        //     $no_tiket = '0' . Tiket::orderBy( 'no_tiket', 'DESC' )->first()->no_tiket + 1;
-        //     // $pendaftar->no_tiket = '0' . Tiket::latest()->first()->nama;
-        //     $total_bayar = Event::find( $request->input( 'event_id' ) )->harga;
-        //     $pendaftar = Tiket::create( array_merge( $request->all(), [
-        //         'no_tiket' => $no_tiket,
-        //         'total_bayar' => $total_bayar,
-        // ] ) );
-        //     if ( $media = $request->input( 'ck-media', false ) ) {
-        //         Media::whereIn( 'id', $media )->update( [ 'model_id' => $pendaftar->id ] );
-        //     }
-
-        // }
+      
         $events = Event::pluck('nama_event', 'id')->prepend(trans('global.pleaseSelect'), '');
         $no_t = Tiket::orderBy('no_tiket', 'DESC')->first();
         $data = $request->all();
