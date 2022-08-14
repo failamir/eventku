@@ -8,10 +8,12 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin'], 
     Route::post('updateprofile', 'ApiController@updateprofile')->name('updateprofile');
     Route::get('transaksi', 'ApiController@transaksi')->name('transaksi');
     Route::get('tiket', 'ApiController@tiket')->name('tiket');
+    Route::get('tiket_status', 'ApiController@tiket_status')->name('tiket_status');
     Route::get('list_tiket', 'ApiController@list_tiket')->name('list_tiket');
     Route::post('notification', 'ApiController@notificationHandler')->name('notification');
-    Route::post('scan', 'ApiController@scan')->name('scan');
+    Route::post('scanqr', 'ApiController@scan')->name('scanqr');
     Route::post('checkin', 'ApiController@checkin')->name('checkin');
+    Route::post('qrcheck', 'ApiController@qrcheck')->name('qrcheck');
     Route::post('status_tiket', 'ApiController@status_tiket')->name('status_tiket');
     Route::post('checkin2', 'ApiController@checkin2')->name('checkin2');
     Route::post('checkout', 'ApiController@checkout')->name('checkout');

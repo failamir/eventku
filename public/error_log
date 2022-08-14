@@ -1,0 +1,1 @@
+[14-Aug-2022 16:36:37 UTC] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home/forkomdi/eventku.kardusinfo.com/app/Http/Controllers/Api/V1/Admin/ApiController.php on line 193

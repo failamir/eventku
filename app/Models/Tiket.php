@@ -18,6 +18,8 @@ class Tiket extends Model implements HasMedia
     use Auditable;
     use HasFactory;
 
+    public $timestamps = true;
+
     public const STATUS_SELECT = [
         'valid'   => 'valid',
         'unvalid' => 'unvalid',
