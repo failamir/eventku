@@ -67,12 +67,12 @@ class ApiController extends Controller
         else {return new UserResource(Tiket::with(['event'])->where('checkin',$s)->OrderBy('updated_at','ASC')->paginate(10));}
     }
 
-    // public function list_checkout()
-    // {
-    //     // abort_if ( Gate::denies( 'pendaftar_access' ), Response::HTTP_FORBIDDEN, '403 Forbidden' );
+    public function list_tiket()
+    {
+        // abort_if ( Gate::denies( 'pendaftar_access' ), Response::HTTP_FORBIDDEN, '403 Forbidden' );
 
-    //     return new UserResource(Tiket::with(['event'])->where('checkin', 'terpakai')->paginate(10));
-    // }
+        return new UserResource(Tiket::with(['event'])->where('no_tiket','!=' ,'generate')->where('qr','!=','NULL')->paginate(10));
+    }
 
     public function create()
     {
@@ -156,7 +156,7 @@ class ApiController extends Controller
 
     public function checkin(Request $request)
     {
-        $pendaftar = Tiket::where('no_tiket', $request->input('no_tiket'))->first();
+        $pendaftar = Tiket::where('qr', $request->input('qr'))->first();
         // var_dump( $pendaftar );
         $pendaftar->update(['checkin' => 'sudah']);
         $snap = new stdClass();
@@ -176,7 +176,7 @@ class ApiController extends Controller
 
     public function checkout(Request $request)
     {
-        $pendaftar = Tiket::where('no_tiket', $request->input('no_tiket'))->first();
+        $pendaftar = Tiket::where('qr', $request->input('qr'))->first();
         $pendaftar->update(['checkin' => 'terpakai']);
         $snap = new stdClass();
         $snap->data = 'success';
@@ -255,7 +255,7 @@ class ApiController extends Controller
     public function profile()
     {
         $request = $_GET['uid'];
-        $user = User::where(
+        $user = User::with('roles')->where(
             'uid',
             $request
             // 'password' => $request->input( 'no_hp' ),
