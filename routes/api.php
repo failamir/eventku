@@ -12,9 +12,9 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin'], 
     Route::get('list_tiket', 'ApiController@list_tiket')->name('list_tiket');
     Route::post('notification', 'ApiController@notificationHandler')->name('notification');
 // <<<<<<< HEAD
-    Route::post('scanqr', 'ApiController@scan')->name('scanqr');
+    Route::post('scanqr', 'ApiController@scanqr')->name('scanqr');
 // =======
-    Route::post('scan', 'ApiController@scanqr')->name('scanqr');
+    Route::post('scan', 'ApiController@scan')->name('scan');
 // >>>>>>> 61769f3d858bf895512ccbe495ca1f5dd4c7b7ff
     Route::post('checkin', 'ApiController@checkin')->name('checkin');
     Route::post('qrcheck', 'ApiController@qrcheck')->name('qrcheck');
