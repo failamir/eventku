@@ -301,10 +301,10 @@ class ApiController extends Controller
         }
         $pendaftar->update(['email' =>  'sudah']);
         $pendaftar = Tiket::where('qr', $request->input('qr'))->first();
-        
+
         // $pendaftar->update(['qr' =>  $request->input('qr')]);
         $pendaftar->update(['pic_assign' => $request->input('uid')]);
-        
+
         $snap = new stdClass();
         if ($pendaftar->checkin == null) $pendaftar->checkin = 'belum';
 
@@ -896,6 +896,12 @@ class ApiController extends Controller
                     $data_donation->update([
                         'status' => 'success'
                     ]);
+                    $nb = Tiket::orderBy('id', 'DESC')->first()->id;
+                    $no_tiket = 0;
+                    $no_tiket = $nb  + 1;
+                    Tiket::where('invoice', $orderId)->update([
+                        'status_payment' => 'success', 'no_tiket' => $no_tiket
+                    ]);
                 }
             }
         } elseif ($transaction == 'settlement') {
@@ -906,6 +912,7 @@ class ApiController extends Controller
             $data_donation->update([
                 'status' => 'success'
             ]);
+            $no_tiket = 0;
             $nb = Tiket::orderBy('id', 'DESC')->first()->id;
             $no_tiket = $nb  + 1;
             Tiket::where('invoice', $orderId)->update([
