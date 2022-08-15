@@ -72,6 +72,7 @@ class Tiket extends Model implements HasMedia
         'pic_checkin',
         'pic_checkout',
         'pic_assign',
+        'invoice',
     ];
 
     public function registerMediaConversions(Media $media = null): void
