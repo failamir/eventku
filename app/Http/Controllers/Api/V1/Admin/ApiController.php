@@ -147,12 +147,12 @@ class ApiController extends Controller
         // abort_if ( Gate::denies( 'pendaftar_access' ), Response::HTTP_FORBIDDEN, '403 Forbidden' );
         $s = $_GET['uid'];
         // if ($s == 'sudahdanterpakai') {
-        $data = Tiket::with(['event'])->where('pic', $s)->orWhere('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->orWhere('checkin', 'terpakai')->OrderBy('updated_at', 'ASC')->limit(30)->get();
+        $data = Tiket::with(['event'])->where('pic_checkin', $s)->orWhere('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->orWhere('checkin', 'terpakai')->OrderBy('updated_at', 'ASC')->limit(30)->get();
         // else {return new UserResource(Tiket::with(['event'])->where('checkin',$s)->OrderBy('updated_at','ASC')->paginate(10));}
 
         $snap = new stdClass();
-        $snap->checkin = count(Tiket::where('pic', $s)->orWhere('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->get());
-        $snap->checkout = count(Tiket::where('pic', $s)->orWhere('checkin', 'terpakai')->get());
+        $snap->checkin = count(Tiket::where('pic_checkin', $s)->orWhere('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->get());
+        $snap->checkout = count(Tiket::where('pic_checkin', $s)->orWhere('checkin', 'terpakai')->get());
         $snap->data = $data;
 
         return response()->json($snap);
