@@ -161,12 +161,12 @@ class ApiController extends Controller
     public function list_tiket()
     {
         // abort_if ( Gate::denies( 'pendaftar_access' ), Response::HTTP_FORBIDDEN, '403 Forbidden' );
-        if (Tiket::with(['event'])->where('no_tiket', '!=', 'generate')->where('pic', $_GET['uid'])->where('qr', '!=', 'NULL')->paginate(10) == null) {
+        if (isset($_GET['uid']) == false) {
             $snap = new stdClass();
-            $snap->data = 'Kosong';
+            $snap->data = 'UID Kosong';
             return response(json_encode($snap), Response::HTTP_FORBIDDEN);
         }
-        return new TiketResource(Tiket::with(['event'])->where('no_tiket', '!=', 'generate')->where('pic', $_GET['uid'])->where('qr', '!=', 'NULL')->paginate(10));
+        return new TiketResource(Tiket::with(['event'])->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->where('qr', '!=', 'NULL')->paginate(10));
     }
 
     public function checkin(Request $request)
@@ -180,7 +180,7 @@ class ApiController extends Controller
             return response(json_encode($snap), Response::HTTP_FORBIDDEN);
         }
         // var_dump( $pendaftar );
-        $pendaftar->update(['checkin' => 'sudah', 'pic' => $request->input('uid')]);
+        $pendaftar->update(['checkin' => 'sudah', 'pic_checkin' => $request->input('uid')]);
         $snap = new stdClass();
         $snap->data = 'success';
         return response()->json($snap);
@@ -263,7 +263,7 @@ class ApiController extends Controller
             $snap->data = 'Tiket not Found';
             return response(json_encode($snap), Response::HTTP_FORBIDDEN);
         }
-        $pendaftar->update(['qr' =>  $request->input('qr')]);
+        $pendaftar->update(['qr' =>  $request->input('qr'),'pic_assign' => $request->input('uid')]);
         $snap = new stdClass();
         if ($pendaftar->checkin == null) $pendaftar->checkin = 'belum';
 
@@ -292,7 +292,7 @@ class ApiController extends Controller
             $snap->data = 'QR not Found';
             return response(json_encode($snap), Response::HTTP_FORBIDDEN);
         }
-        $pendaftar->update(['checkin' => 'terpakai', 'pic' => $request->input('uid')]);
+        $pendaftar->update(['checkin' => 'terpakai', 'pic_checkout' => $request->input('uid')]);
         $snap = new stdClass();
         $snap->data = 'success';
         return response()->json($snap);
