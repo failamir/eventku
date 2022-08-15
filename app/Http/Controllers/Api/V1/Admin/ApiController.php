@@ -221,7 +221,7 @@ class ApiController extends Controller
 
     public function scanqr(Request $request)
     {
-        $pendaftar = Tiket::where('qr', $request->input('qr'))->first();
+        $pendaftar = Tiket::where('qr', $request->input('qr'))->orWhere('email', $request->input('qr'))->first();
         if (empty($pendaftar)) {
             $snap = new stdClass();
         $snap->data = 'QR not Found';
