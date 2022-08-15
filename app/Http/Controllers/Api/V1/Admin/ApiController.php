@@ -166,7 +166,13 @@ class ApiController extends Controller
             $snap->data = 'UID Kosong';
             return response(json_encode($snap), Response::HTTP_FORBIDDEN);
         }
-        return new UserResource(Tiket::with(['event'])->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->where('qr', '!=', 'NULL')->OrderBy('updated_at', 'ASC')->limit(20)->get());
+        // return new UserResource(Tiket::with(['event'])->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->where('qr', '!=', 'NULL')->OrderBy('updated_at', 'ASC')->limit(20)->get());
+        $snap = new stdClass();
+        $snap->total = count(Tiket::with(['event'])->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->where('qr', '!=', 'NULL')->OrderBy('updated_at', 'ASC')->get());
+        // $snap->checkout = count(Tiket::where('pic_checkin', $s)->orWhere('checkin', 'terpakai')->get());
+        $snap->data = new UserResource(Tiket::with(['event'])->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->where('qr', '!=', 'NULL')->OrderBy('updated_at', 'ASC')->limit(20)->get());
+
+        return response()->json($snap);
     }
 
     public function checkin(Request $request)
