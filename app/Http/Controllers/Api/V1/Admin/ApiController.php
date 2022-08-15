@@ -332,12 +332,7 @@ class ApiController extends Controller
             // 'password' => $request->input( 'no_hp' ),
         )->first();
 
-        if (!empty($e_user)) {
-
-            $snap = new stdClass();
-            $snap->data = 'email sudah terdaftar';
-            return response()->json($snap);
-        } else {
+        if (empty($e_user)) {
             $user = User::create([
                 'uid'     => $request->input('uid'),
                 'email'    => $request->input('email'),
@@ -351,6 +346,11 @@ class ApiController extends Controller
             $snap = new stdClass();
             $snap->data = 'success daftar';
             return response()->json($snap);
+            
+        } else {
+            $snap = new stdClass();
+            $snap->data = 'email sudah terdaftar';
+            return response(json_encode($snap), Response::HTTP_FORBIDDEN);
         }
     }
 
