@@ -147,7 +147,7 @@ class ApiController extends Controller
         // abort_if ( Gate::denies( 'pendaftar_access' ), Response::HTTP_FORBIDDEN, '403 Forbidden' );
         $s = $_GET['uid'];
         // if ($s == 'sudahdanterpakai') {
-        $data = Tiket::with(['event'])->where('pic_checkin', $s)->orWhere('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->orWhere('checkin', 'terpakai')->OrderBy('updated_at', 'ASC')->limit(30)->get();
+        $data = Tiket::with(['event'])->where('pic_checkin', $s)->orWhere('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->orWhere('checkin', 'terpakai')->OrderBy('updated_at', 'ASC')->limit(20)->get();
         // else {return new UserResource(Tiket::with(['event'])->where('checkin',$s)->OrderBy('updated_at','ASC')->paginate(10));}
 
         $snap = new stdClass();
@@ -166,7 +166,7 @@ class ApiController extends Controller
             $snap->data = 'UID Kosong';
             return response(json_encode($snap), Response::HTTP_FORBIDDEN);
         }
-        return new UserResource(Tiket::with(['event'])->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->where('qr', '!=', 'NULL')->paginate(10));
+        return new UserResource(Tiket::with(['event'])->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->where('qr', '!=', 'NULL')->OrderBy('updated_at', 'ASC')->limit(20)->get());
     }
 
     public function checkin(Request $request)
