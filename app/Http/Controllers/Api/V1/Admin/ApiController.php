@@ -582,6 +582,12 @@ class ApiController extends Controller
                     $nama = 'generate';
                 }
 
+                if (null !== $userdata->nik) {
+                    $nik = $userdata->nik;
+                } else {
+                    $nik = 'generate';
+                }
+
                 // $pendaftar = Tiket::create( array_merge( $request->all(), [
                 //     'nama' => $nama,
                 //     'email' => $email,
@@ -600,7 +606,7 @@ class ApiController extends Controller
                     'nama' => $nama,
                     'email' => $email,
                     'no_hp' => $no_hp,
-                    // 'no_tiket' => $no_tiket,
+                    'nik' => $nik,
                     'invoice' => $no_invoice,
                     'total_bayar' => $total_bayar,
                     'event_id' => $d,
