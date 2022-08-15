@@ -151,7 +151,7 @@ class ApiController extends Controller
         // else {return new UserResource(Tiket::with(['event'])->where('checkin',$s)->OrderBy('updated_at','ASC')->paginate(10));}
 
         $snap = new stdClass();
-        $snap->checkin = count(Tiket::where('pic_checkin', $s)->orWhere('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->get());
+        $snap->checkin = count(Tiket::where('pic_checkin', $s)->where('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->get());
         $snap->checkout = count(Tiket::where('pic_checkout', $s)->orWhere('checkin', 'terpakai')->get());
         $snap->data = $data;
 
