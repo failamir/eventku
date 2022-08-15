@@ -166,7 +166,7 @@ class ApiController extends Controller
             $snap->data = 'UID Kosong';
             return response(json_encode($snap), Response::HTTP_FORBIDDEN);
         }
-        return new TiketResource(Tiket::with(['event'])->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->where('qr', '!=', 'NULL')->paginate(10));
+        return new UserResource(Tiket::with(['event'])->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->where('qr', '!=', 'NULL')->paginate(10));
     }
 
     public function checkin(Request $request)
