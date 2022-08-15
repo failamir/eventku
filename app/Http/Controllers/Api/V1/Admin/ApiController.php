@@ -327,24 +327,24 @@ class ApiController extends Controller
     public function daftar(Request $request)
     {
         $e_user = User::where('email', $request->input('email'))->first();
-        var_dump($request->input('email'));
-        var_dump($e_user);
+        // var_dump($request->input('email'));
+        // var_dump($e_user);
 
         if (empty($e_user)) {
-            // $user = User::create([
-            //     'uid'     => $request->input('uid'),
-            //     'email'    => $request->input('email'),
-            //     'name'    => $request->input('name'),
-            //     'password' => $request->input('uid'),
-            //     // 'password' => $request->input( 'no_hp' ),
-            // ]);
-            // // $user->assignRole( 'User' );
-            // $user->roles()->sync(2);
+            $user = User::create([
+                'uid'     => $request->input('uid'),
+                'email'    => $request->input('email'),
+                'name'    => $request->input('name'),
+                'password' => $request->input('uid'),
+                // 'password' => $request->input( 'no_hp' ),
+            ]);
+            // $user->assignRole( 'User' );
+            $user->roles()->sync(2);
 
-            // $snap = new stdClass();
-            // $snap->data = 'success daftar';
-            // return response()->json($snap);
-            echo 000;
+            $snap = new stdClass();
+            $snap->data = 'success daftar';
+            return response()->json($snap);
+            // echo 000;
         } else {
             $snap = new stdClass();
             $snap->data = 'email sudah terdaftar';
