@@ -230,13 +230,20 @@ class ApiController extends Controller
     public function scanqr(Request $request)
     {
         $pendaftar = Tiket::
-        where('pic_assign', NULL)->
-        Where('email', $request->input('qr'))
-        ->first();
+            // where('pic_assign', NULL)->
+            Where('email', $request->input('qr'))
+            ->first();
         if (empty($pendaftar)) {
             $snap = new stdClass();
             $snap->data = 'QR not Found';
             return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+        }
+        if ($pendaftar->no_tiket == 'generate') {
+            $snap = new stdClass();
+            $pendaftar->no_tiket = '';
+            $snap->code = $request->input('qr');
+            $snap->checkin = $pendaftar->checkin;
+            return response()->json($snap);
         }
         $snap = new stdClass();
         if ($pendaftar->checkin == null) $pendaftar->checkin = 'belum';
@@ -286,15 +293,18 @@ class ApiController extends Controller
 
     public function assignticket(Request $request)
     {
-        $pendaftar = Tiket::where('no_tiket', $request->input('no_tiket'))->first();
+        $pendaftar = Tiket::where('email', $request->input('qr'))->first();
         if (empty($pendaftar)) {
             $snap = new stdClass();
             $snap->data = 'Tiket not Found';
             return response(json_encode($snap), Response::HTTP_FORBIDDEN);
         }
-        $pendaftar->update(['qr' =>  $request->input('qr')]);
+        $pendaftar->update(['email' =>  'sudah']);
+        $pendaftar = Tiket::where('qr', $request->input('qr'))->first();
+        
+        // $pendaftar->update(['qr' =>  $request->input('qr')]);
         $pendaftar->update(['pic_assign' => $request->input('uid')]);
-        $pendaftar->update(['email' => 'sudah'.$pendaftar->email ]);
+        
         $snap = new stdClass();
         if ($pendaftar->checkin == null) $pendaftar->checkin = 'belum';
 
@@ -590,7 +600,8 @@ class ApiController extends Controller
                     'nama' => $nama,
                     'email' => $email,
                     'no_hp' => $no_hp,
-                    'no_tiket' => $no_tiket,
+                    // 'no_tiket' => $no_tiket,
+                    'invoice' => $no_invoice,
                     'total_bayar' => $total_bayar,
                     'event_id' => $d,
                     'peserta_id' => $userdata->id,
@@ -894,6 +905,11 @@ class ApiController extends Controller
              */
             $data_donation->update([
                 'status' => 'success'
+            ]);
+            $nb = Tiket::orderBy('id', 'DESC')->first()->id;
+            $no_tiket = $nb  + 1;
+            Tiket::where('invoice', $orderId)->update([
+                'status_payment' => 'success', 'no_tiket' => $no_tiket
             ]);
         } elseif ($transaction == 'pending') {
 
