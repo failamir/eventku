@@ -255,13 +255,13 @@ class ApiController extends Controller
 
     public function assignticket(Request $request)
     {
-        $pendaftar = Tiket::where('qr', $request->input('qr'))->first();
+        $pendaftar = Tiket::where('no_tiket', $request->input('no_tiket'))->first();
         if (empty($pendaftar)) {
             $snap = new stdClass();
-        $snap->data = 'QR not Found';
+        $snap->data = 'Tiket not Found';
         return response(json_encode($snap),Response::HTTP_FORBIDDEN);
         }
-        $pendaftar->update(['no_tiket' =>  $request->input('no_tiket')]);
+        $pendaftar->update(['qr' =>  $request->input('qr')]);
         $snap = new stdClass();
         if ($pendaftar->checkin == null) $pendaftar->checkin = 'belum';
         
