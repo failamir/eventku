@@ -230,7 +230,7 @@ class ApiController extends Controller
     public function scanqr(Request $request)
     {
         $pendaftar = Tiket::
-        // where('qr', $request->input('qr'))
+        where('pic_assign', NULL)->
         Where('email', $request->input('qr'))
         ->first();
         if (empty($pendaftar)) {
@@ -240,7 +240,7 @@ class ApiController extends Controller
         }
         $snap = new stdClass();
         if ($pendaftar->checkin == null) $pendaftar->checkin = 'belum';
-        if ($pendaftar->no_tiket == 'generate') $pendaftar->no_tiket = '';
+        // if ($pendaftar->no_tiket == 'generate') $pendaftar->no_tiket = '';
         $snap->code = $request->input('qr');
         $snap->checkin = $pendaftar->checkin;
         $snap->no_tiket = $pendaftar->no_tiket;
