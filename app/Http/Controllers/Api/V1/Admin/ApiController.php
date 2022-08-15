@@ -332,6 +332,8 @@ class ApiController extends Controller
             // 'password' => $request->input( 'no_hp' ),
         )->first();
 
+        var_dump($e_user);
+
         if (empty($e_user)) {
             // $user = User::create([
             //     'uid'     => $request->input('uid'),
