@@ -162,7 +162,7 @@ class ApiController extends Controller
     {
         // abort_if ( Gate::denies( 'pendaftar_access' ), Response::HTTP_FORBIDDEN, '403 Forbidden' );
 
-        return new UserResource(Tiket::with(['event'])->where('no_tiket','!=' ,'generate')->where('qr','!=','NULL')->paginate(10));
+        return new UserResource(Tiket::with(['event'])->where('no_tiket','!=' ,'generate')->where('pic',$_GET['uid'])->where('qr','!=','NULL')->paginate(10));
     }
 
     public function checkin(Request $request)
