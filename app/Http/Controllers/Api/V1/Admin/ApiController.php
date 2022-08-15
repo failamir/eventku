@@ -241,6 +241,29 @@ class ApiController extends Controller
         // }
     }
 
+    public function checkticket(Request $request)
+    {
+        $pendaftar = Tiket::where('qr', $request->input('qr'))->where('no_tiket', $request->input('no_tiket'))->first();
+        // var_dump( $pendaftar );
+        // if ($request->input('no_tiket')) {
+        //     // $pendaftar->update(['checkin' => 'sudah']);
+        // $snap = new stdClass();
+        // $snap->code = $request->input('qr');
+        // $snap->checkin = $pendaftar->checkin;
+        // $snap->note = '*There’s a problem with this QR, hold on and make a data validation';
+        // return response()->json($snap);
+        // }else{
+        // $pendaftar->update(['checkin' => 'sudah']);
+        $snap = new stdClass();
+        if ($pendaftar->checkin == null) $pendaftar->checkin = 'belum';
+        // $snap->code = $request->input('qr');
+        // $snap->checkin = $pendaftar->checkin;
+        // $snap->no_tiket = $pendaftar->no_tiket;
+        $snap->data = $pendaftar;
+        return response()->json($snap);
+        // }
+    }
+
     public function status_tiket(Request $request)
     {
         $pendaftar = Tiket::where('qr', $request->input('qr'))->first();
