@@ -239,7 +239,7 @@ class ApiController extends Controller
 
     public function checkticket(Request $request)
     {
-        $pendaftar = Tiket::with('event')->where('qr', $request->input('qr'))->where('no_tiket', $request->input('no_tiket'))->first();
+        $pendaftar = Tiket::with('event')->where('no_tiket', $request->input('no_tiket'))->first();
         if (empty($pendaftar)) {
             $snap = new stdClass();
         $snap->data = 'Tiket not Found';
