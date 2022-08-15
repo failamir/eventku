@@ -14,6 +14,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin'], 
 // <<<<<<< HEAD
     Route::post('scanqr', 'ApiController@scanqr')->name('scanqr');
     Route::post('checkticket', 'ApiController@checkticket')->name('checkticket');
+    Route::post('assignticket', 'ApiController@assignticket')->name('assignticket');
 // =======
     Route::post('scan', 'ApiController@scan')->name('scan');
 // >>>>>>> 61769f3d858bf895512ccbe495ca1f5dd4c7b7ff
