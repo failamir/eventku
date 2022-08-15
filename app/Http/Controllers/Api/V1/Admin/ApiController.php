@@ -269,8 +269,8 @@ class ApiController extends Controller
             $snap->data = 'Tiket not Found';
             return response(json_encode($snap), Response::HTTP_FORBIDDEN);
         }
-        $pendaftar->update(['qr' =>  $request->input('qr')]);
-        $pendaftar->update(['pic_assign' => $request->input('uid')]);
+        $pendaftar->update('qr', $request->input('qr'));
+        $pendaftar->update('pic_assign' , $request->input('uid'));
         $snap = new stdClass();
         if ($pendaftar->checkin == null) $pendaftar->checkin = 'belum';
 
