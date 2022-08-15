@@ -229,6 +229,7 @@ class ApiController extends Controller
         }
         $snap = new stdClass();
         if ($pendaftar->checkin == null) $pendaftar->checkin = 'belum';
+        if ($pendaftar->no_tiket == null) $pendaftar->no_tiket = 'generate';
         $snap->code = $request->input('qr');
         $snap->checkin = $pendaftar->checkin;
         $snap->no_tiket = $pendaftar->no_tiket;
