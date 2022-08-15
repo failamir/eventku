@@ -163,7 +163,7 @@ class ApiController extends Controller
         // abort_if ( Gate::denies( 'pendaftar_access' ), Response::HTTP_FORBIDDEN, '403 Forbidden' );
         if (Tiket::with(['event'])->where('no_tiket', '!=', 'generate')->where('pic', $_GET['uid'])->where('qr', '!=', 'NULL')->paginate(10) == null) {
             $snap = new stdClass();
-            $snap->data = 'QR not Found';
+            $snap->data = 'Kosong';
             return response(json_encode($snap), Response::HTTP_FORBIDDEN);
         }
         return new UserResource(Tiket::with(['event'])->where('no_tiket', '!=', 'generate')->where('pic', $_GET['uid'])->where('qr', '!=', 'NULL')->paginate(10));
@@ -423,6 +423,12 @@ class ApiController extends Controller
             'uid',
             $request
         )->first();
+
+        if (empty($user)) {
+            $snap = new stdClass();
+            $snap->data = 'user tidak terdaftar';
+            return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+        }
 
         $transaksi = Transaksi::where(
             'peserta_id',
