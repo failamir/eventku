@@ -229,8 +229,9 @@ class ApiController extends Controller
 
     public function scanqr(Request $request)
     {
-        $pendaftar = Tiket::where('qr', $request->input('qr'))
-        // ->orWhere('email', $request->input('qr'))
+        $pendaftar = Tiket::
+        // where('qr', $request->input('qr'))
+        Where('email', $request->input('qr'))
         ->first();
         if (empty($pendaftar)) {
             $snap = new stdClass();
@@ -246,6 +247,26 @@ class ApiController extends Controller
         return response()->json($snap);
         // }
     }
+
+    // public function scanqr(Request $request)
+    // {
+    //     $pendaftar = Tiket::where('qr', $request->input('qr'))
+    //     // ->orWhere('email', $request->input('qr'))
+    //     ->first();
+    //     if (empty($pendaftar)) {
+    //         $snap = new stdClass();
+    //         $snap->data = 'QR not Found';
+    //         return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+    //     }
+    //     $snap = new stdClass();
+    //     if ($pendaftar->checkin == null) $pendaftar->checkin = 'belum';
+    //     if ($pendaftar->no_tiket == 'generate') $pendaftar->no_tiket = '';
+    //     $snap->code = $request->input('qr');
+    //     $snap->checkin = $pendaftar->checkin;
+    //     $snap->no_tiket = $pendaftar->no_tiket;
+    //     return response()->json($snap);
+    //     // }
+    // }
 
     public function checkticket(Request $request)
     {
@@ -271,8 +292,9 @@ class ApiController extends Controller
             $snap->data = 'Tiket not Found';
             return response(json_encode($snap), Response::HTTP_FORBIDDEN);
         }
-        // var_dump($pendaftar->update(['qr' =>  $request->input('qr')]));
-        // var_dump($pendaftar->update(['pic_assign' => $request->input('uid')]));
+        $pendaftar->update(['qr' =>  $request->input('qr')]);
+        $pendaftar->update(['pic_assign' => $request->input('uid')]);
+        $pendaftar->update(['email' => 'sudah'.$pendaftar->email ]);
         $snap = new stdClass();
         if ($pendaftar->checkin == null) $pendaftar->checkin = 'belum';
 
