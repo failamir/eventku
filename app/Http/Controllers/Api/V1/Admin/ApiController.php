@@ -166,12 +166,7 @@ class ApiController extends Controller
             $snap->data = 'UID Kosong';
             return response(json_encode($snap), Response::HTTP_FORBIDDEN);
         }
-        $data = Tiket::with(['event'])->where('no_tiket', '!=', 'generate')->where('qr', '!=', 'NULL')->where('pic_assign', $_GET['uid'])->get();
-        $snap = new stdClass();
-        // $snap->checkin = count(Tiket::where('pic', $_GET['uid'])->orWhere('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->get());
-        // $snap->checkout = count(Tiket::where('pic', $_GET['uid'])->orWhere('checkin', 'terpakai')->get());
-        $snap->data = $data;
-        return response()->json($snap);
+        return new UserResource(Tiket::with(['event'])->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->where('qr', '!=', 'NULL')->paginate(10));
     }
 
     public function checkin(Request $request)
