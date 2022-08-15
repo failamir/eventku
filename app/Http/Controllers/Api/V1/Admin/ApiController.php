@@ -152,7 +152,7 @@ class ApiController extends Controller
 
         $snap = new stdClass();
         $snap->checkin = count(Tiket::where('pic_checkin', $s)->orWhere('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->get());
-        $snap->checkout = count(Tiket::where('pic_checkin', $s)->orWhere('checkin', 'terpakai')->get());
+        $snap->checkout = count(Tiket::where('pic_checkout', $s)->orWhere('checkin', 'terpakai')->get());
         $snap->data = $data;
 
         return response()->json($snap);
