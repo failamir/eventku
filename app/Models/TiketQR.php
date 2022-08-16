@@ -11,7 +11,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Tiket extends Model implements HasMedia
+class TiketQR extends Model implements HasMedia
 {
     use SoftDeletes;
     use InteractsWithMedia;
