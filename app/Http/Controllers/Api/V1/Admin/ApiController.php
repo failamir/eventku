@@ -254,7 +254,7 @@ class ApiController extends Controller
             return response(json_encode($snap), Response::HTTP_FORBIDDEN);
         }
         $tiket = Tiket::where('no_tiket', $request->input('no_tiket'))->first();
-        $pendaftar->update(['peserta_id' =>  $tiket->peserta_id,'event_id' =>  $tiket->event_id,'checkin' =>  'belum','status' =>  'assign','no_tiket' => $request->input('no_tiket'), 'pic_assign' => $request->input('uid')]);
+        $pendaftar->update(['nama' =>  $tiket->nama,'peserta_id' =>  $tiket->peserta_id,'event_id' =>  $tiket->event_id,'checkin' =>  'belum','status' =>  'assign','no_tiket' => $request->input('no_tiket'), 'pic_assign' => $request->input('uid')]);
         // $pendaftar = Tiket::where('no_tiket', $request->input('no_tiket'))->first();
         $snap = new stdClass();
         $snap->data = $pendaftar;
