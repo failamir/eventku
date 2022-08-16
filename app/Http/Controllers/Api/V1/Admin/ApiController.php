@@ -215,6 +215,7 @@ class ApiController extends Controller
     {
         $pendaftar = TiketQR::
             where('pic_assign', NULL)->
+            orWhere('pic_assign', '')->
             where('email', $request->input('qr'))
             ->first();
         if (empty($pendaftar)) {
