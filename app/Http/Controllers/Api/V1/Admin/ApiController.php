@@ -72,11 +72,6 @@ class ApiController extends Controller
         return view('admin.pendaftars.create', compact('events', 'no_t'));
     }
 
-    public function apibeli(Request $request)
-    {
-        return view('admin.pendaftars.beli', compact('request'));
-    }
-
     public function beli(Request $request)
     {
 
@@ -152,8 +147,8 @@ class ApiController extends Controller
         // else {return new UserResource(Tiket::with(['event'])->where('checkin',$s)->OrderBy('updated_at','ASC')->paginate(10));}
 
         $snap = new stdClass();
-        $snap->checkin = count(Tiket::where('pic_checkin', $s)->where('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->get());
-        $snap->checkout = count(Tiket::where('pic_checkout', $s)->orWhere('checkin', 'terpakai')->get());
+        $snap->checkin = count(TiketQR::where('pic_checkin', $s)->where('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->get());
+        $snap->checkout = count(TiketQR::where('pic_checkout', $s)->orWhere('checkin', 'terpakai')->get());
         $snap->data = $data;
 
         return response()->json($snap);
