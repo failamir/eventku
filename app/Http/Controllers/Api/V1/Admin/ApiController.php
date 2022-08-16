@@ -145,7 +145,10 @@ class ApiController extends Controller
         // if ($s == 'sudahdanterpakai') {
         $data = TiketQR::with(['event'])->where('pic_checkin', $s)->orWhere('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->orWhere('checkin', 'terpakai')->OrderBy('updated_at', 'ASC')->limit(20)->get();
         // else {return new UserResource(Tiket::with(['event'])->where('checkin',$s)->OrderBy('updated_at','ASC')->paginate(10));}
-
+        // $data->each(function ($data) {
+        //     $data->event_id = 'sudah';
+        //     $data->save();
+        // });
         $snap = new stdClass();
         $snap->checkin = count(TiketQR::where('pic_checkin', $s)->where('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->get());
         $snap->checkout = count(TiketQR::where('pic_checkout', $s)->orWhere('checkin', 'terpakai')->get());
@@ -208,8 +211,7 @@ class ApiController extends Controller
 
     public function scanqr(Request $request)
     {
-        $pendaftar = TiketQR::
-        where('email', $request->input('qr'))
+        $pendaftar = TiketQR::where('email', $request->input('qr'))
             // where('pic_assign', NULL)->
             // orWhere('pic_assign', '')
             ->first();
@@ -254,7 +256,7 @@ class ApiController extends Controller
             return response(json_encode($snap), Response::HTTP_FORBIDDEN);
         }
         $tiket = Tiket::where('no_tiket', $request->input('no_tiket'))->first();
-        $pendaftar->update(['nama' =>  $tiket->nama,'peserta_id' =>  $tiket->peserta_id,'event_id' =>  $tiket->event_id,'checkin' =>  'belum','status' =>  'assign','no_tiket' => $request->input('no_tiket'), 'pic_assign' => $request->input('uid')]);
+        $pendaftar->update(['nama' =>  $tiket->nama, 'peserta_id' =>  $tiket->peserta_id, 'event_id' =>  $tiket->event_id, 'checkin' =>  'belum', 'status' =>  'assign', 'no_tiket' => $request->input('no_tiket'), 'pic_assign' => $request->input('uid')]);
         // $pendaftar = Tiket::where('no_tiket', $request->input('no_tiket'))->first();
         $snap = new stdClass();
         $snap->data = $pendaftar;
@@ -275,13 +277,23 @@ class ApiController extends Controller
     public function checkin(Request $request)
     {
         // $pendaftar = Tiket::where('qr', $request->input('qr'))->first();
-        $pendaftar = TiketQR::where('email', $request->input('qr'))->where('no_tiket','!=','generate')->first();
+        $pendaftar = TiketQR::where('email', $request->input('qr'))->where('no_tiket', '!=', 'generate')->first();
         if (empty($pendaftar)) {
             $snap = new stdClass();
             // $snap->code = $request->input('qr');
             // $snap->checkin = $pendaftar->checkin;
             $snap->data = 'QR not Found';
             return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+        }
+        $pendaftar = TiketQR::where('email', $request->input('qr'))->where('no_tiket', '!=', 'generate')->first();
+        $tanggal_mulai = Event::find($pendaftar->event_id)->tanggal_mulai;
+        $tanggal_selesai = Event::find($pendaftar->event_id)->tanggal_selesai;
+        if (date('Y-m-d') < $tanggal_mulai || date('Y-m-d') > $tanggal_selesai) {
+            $snap = new stdClass();
+            $snap->code = $request->input('qr');
+            $snap->checkin = $pendaftar->checkin;
+            $snap->note = '*Tanggal Berlaku Tiket Tidak Valid / Kadarluasa';
+            return response()->json($snap);
         }
         // var_dump( $pendaftar );
         $pendaftar->update(['checkin' => 'sudah', 'pic_checkin' => $request->input('uid')]);
@@ -293,7 +305,7 @@ class ApiController extends Controller
     public function checkout(Request $request)
     {
         // $pendaftar = Tiket::where('qr', $request->input('qr'))->first();
-        $pendaftar = TiketQR::where('email', $request->input('qr'))->where('no_tiket','!=','generate')->first();
+        $pendaftar = TiketQR::where('email', $request->input('qr'))->where('no_tiket', '!=', 'generate')->first();
         if (empty($pendaftar)) {
             $snap = new stdClass();
             // $snap->code = $request->input('qr');
@@ -310,7 +322,7 @@ class ApiController extends Controller
     public function checkin2(Request $request)
     {
         // $pendaftar = Tiket::where('qr', $request->input('qr'))->first();
-        $pendaftar = TiketQR::where('email', $request->input('qr'))->where('no_tiket','!=','generate')->first();
+        $pendaftar = TiketQR::where('email', $request->input('qr'))->where('no_tiket', '!=', 'generate')->first();
         if (empty($pendaftar)) {
             $snap = new stdClass();
             // $snap->code = $request->input('qr');
