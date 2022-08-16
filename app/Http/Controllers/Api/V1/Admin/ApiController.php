@@ -173,7 +173,7 @@ class ApiController extends Controller
 
     public function qrcheck(Request $request)
     {
-        $pendaftar = TiketQR::where('qr', $request->input('qr'))->first();
+        $pendaftar = TiketQR::where('email', $request->input('qr'))->first();
         // var_dump( $pendaftar );
         if (empty($pendaftar)) {
             $snap = new stdClass();
