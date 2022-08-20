@@ -339,7 +339,7 @@ class ApiController extends Controller
 
     public function daftar(Request $request)
     {
-        $e_user = User::where('email', $request->input('email'))->first();
+        $e_user = User::where('email', $request->input('email'))->withTrashed()->first();
         // var_dump($request->input('email'));
         // var_dump($e_user);
 
