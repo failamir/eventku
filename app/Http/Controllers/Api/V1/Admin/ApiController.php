@@ -180,11 +180,19 @@ class ApiController extends Controller
         $pendaftar = TiketQR::where('email', $request->input('qr'))->where('no_tiket', '!=', 'generate')->first();
         $tanggal_mulai = Event::find($pendaftar->event_id)->tanggal_mulai;
         $tanggal_selesai = Event::find($pendaftar->event_id)->tanggal_selesai;
-        if (date('Y-m-d') < $tanggal_mulai || date('Y-m-d') > $tanggal_selesai) {
+        if (date('Y-m-d') < $tanggal_mulai) {
             $snap = new stdClass();
             $snap->code = $request->input('qr');
             $snap->checkin = $pendaftar->checkin;
-            $snap->note = '*Tiket Tidak Valid / Kadarluasa';
+            $snap->note = '*Event belum berlangsung';
+            // return response()->json($snap);
+            return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+        }
+        if (date('Y-m-d') > $tanggal_selesai) {
+            $snap = new stdClass();
+            $snap->code = $request->input('qr');
+            $snap->checkin = $pendaftar->checkin;
+            $snap->note = '*Tiket Kedaluwarsa';
             // return response()->json($snap);
             return response(json_encode($snap), Response::HTTP_FORBIDDEN);
         }
