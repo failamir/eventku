@@ -28,6 +28,7 @@ use App\Models\User;
 use App\Models\Tiket;
 use App\Models\TiketQR;
 // use Dotenv\Validator;
+use Response;
 date_default_timezone_set("Asia/Jakarta");
 
 class ApiController extends Controller
