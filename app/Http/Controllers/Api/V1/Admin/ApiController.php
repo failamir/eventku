@@ -361,7 +361,16 @@ class ApiController extends Controller
             // echo 000;
         } else {
             $snap = new stdClass();
-            $snap->data = 'email sudah terdaftar';
+            $e_user->update([
+                'uid'     => $request->input('uid'),
+                'email'    => $request->input('email'),
+                'name'    => $request->input('name'),
+                'password' => $request->input('uid'),
+                // 'password' => $request->input( 'no_hp' ),
+            ]);
+            // $user->assignRole( 'User' );
+            $e_user->roles()->sync(2);
+            $snap->data = 'success daftar';
             return response(json_encode($snap), Response::HTTP_FORBIDDEN);
         }
     }
@@ -369,8 +378,7 @@ class ApiController extends Controller
     public function updateprofile(Request $request)
     {
         $e_user = User::where(
-            'uid',
-            $request->input('uid')
+            'uid',$request->input('uid')
             // 'password' => $request->input( 'no_hp' ),
         )->first();
 
