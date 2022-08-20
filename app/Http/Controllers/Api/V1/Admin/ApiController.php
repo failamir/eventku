@@ -536,7 +536,7 @@ class ApiController extends Controller
             $snap->data = 'user tidak terdaftar';
             // return response(json_encode($snap), Response::HTTP_FORBIDDEN);
             return Response::json([
-                'data' => 'user tidak terdaftar';
+                'data' => 'user tidak terdaftar'
             ], 403);
         }
 
