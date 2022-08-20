@@ -278,7 +278,7 @@ class ApiController extends Controller
             return response(json_encode($snap), Response::HTTP_FORBIDDEN);
         }
         $pendaftar = TiketQR::where('no_tiket', $request->input('no_tiket'))->first();
-        if (empty($pendaftar)) {
+        if (!empty($pendaftar)) {
             $snap = new stdClass();
             $snap->data = 'Tiket sudah di assign';
             return response(json_encode($snap), Response::HTTP_FORBIDDEN);
