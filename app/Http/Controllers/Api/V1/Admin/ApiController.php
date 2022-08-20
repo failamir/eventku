@@ -371,7 +371,7 @@ class ApiController extends Controller
             // $user->assignRole( 'User' );
             $e_user->roles()->sync(2);
             $snap->data = 'success daftar';
-            return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            return response()->json($snap);
         }
     }
 
