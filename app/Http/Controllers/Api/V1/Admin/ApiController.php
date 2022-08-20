@@ -405,7 +405,7 @@ class ApiController extends Controller
         if ($e_user == null) {
             $snap = new stdClass();
             $snap->data = 'Profile tidak ada';
-            return response()->json($snap);
+            return response(json_encode($snap), Response::HTTP_FORBIDDEN);
         }
         $request = $_GET['uid'];
         $user = User::with('roles')->where(
