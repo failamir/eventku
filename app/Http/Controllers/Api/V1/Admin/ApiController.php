@@ -406,7 +406,7 @@ class ApiController extends Controller
 
     public function profile()
     {
-        $e_user = User::where('email', $_GET['uid'])->withTrashed()->first();
+        $e_user = User::where('uid', $_GET['uid'])->withTrashed()->first();
         // var_dump($request->input('email'));
         // var_dump($e_user);
 
