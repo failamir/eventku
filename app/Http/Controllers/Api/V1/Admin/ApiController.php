@@ -176,7 +176,18 @@ class ApiController extends Controller
 
     public function qrcheck(Request $request)
     {
-        $pendaftar = TiketQR::where('email', $request->input('qr'))->first();
+        // $pendaftar = TiketQR::where('email', $request->input('qr'))->first();
+        $pendaftar = TiketQR::where('email', $request->input('qr'))->where('no_tiket', '!=', 'generate')->first();
+        $tanggal_mulai = Event::find($pendaftar->event_id)->tanggal_mulai;
+        $tanggal_selesai = Event::find($pendaftar->event_id)->tanggal_selesai;
+        if (date('Y-m-d') < $tanggal_mulai || date('Y-m-d') > $tanggal_selesai) {
+            $snap = new stdClass();
+            $snap->code = $request->input('qr');
+            $snap->checkin = $pendaftar->checkin;
+            $snap->note = '*Tiket Tidak Valid / Kadarluasa';
+            // return response()->json($snap);
+            return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+        }
         // var_dump( $pendaftar );
         if (empty($pendaftar)) {
             $snap = new stdClass();
@@ -285,16 +296,16 @@ class ApiController extends Controller
             $snap->data = 'QR not Found';
             return response(json_encode($snap), Response::HTTP_FORBIDDEN);
         }
-        $pendaftar = TiketQR::where('email', $request->input('qr'))->where('no_tiket', '!=', 'generate')->first();
-        $tanggal_mulai = Event::find($pendaftar->event_id)->tanggal_mulai;
-        $tanggal_selesai = Event::find($pendaftar->event_id)->tanggal_selesai;
-        if (date('Y-m-d') < $tanggal_mulai || date('Y-m-d') > $tanggal_selesai) {
-            $snap = new stdClass();
-            $snap->code = $request->input('qr');
-            $snap->checkin = $pendaftar->checkin;
-            $snap->note = '*Tanggal Berlaku Tiket Tidak Valid / Kadarluasa';
-            return response()->json($snap);
-        }
+        // $pendaftar = TiketQR::where('email', $request->input('qr'))->where('no_tiket', '!=', 'generate')->first();
+        // $tanggal_mulai = Event::find($pendaftar->event_id)->tanggal_mulai;
+        // $tanggal_selesai = Event::find($pendaftar->event_id)->tanggal_selesai;
+        // if (date('Y-m-d') < $tanggal_mulai || date('Y-m-d') > $tanggal_selesai) {
+        //     $snap = new stdClass();
+        //     $snap->code = $request->input('qr');
+        //     $snap->checkin = $pendaftar->checkin;
+        //     $snap->note = '*Tanggal Berlaku Tiket Tidak Valid / Kadarluasa';
+        //     return response()->json($snap);
+        // }
         // var_dump( $pendaftar );
         $pendaftar->update(['checkin' => 'sudah', 'pic_checkin' => $request->input('uid')]);
         $snap = new stdClass();
