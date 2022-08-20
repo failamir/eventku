@@ -164,7 +164,10 @@ class ApiController extends Controller
         if (isset($_GET['uid']) == false) {
             $snap = new stdClass();
             $snap->data = 'UID Kosong';
-            return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            // return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            return Response::json([
+                'data' => 'uid kosong'
+            ], 403);
         }
         // return new UserResource(Tiket::with(['event'])->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->where('qr', '!=', 'NULL')->OrderBy('updated_at', 'ASC')->limit(20)->get());
         $snap = new stdClass();
@@ -190,7 +193,10 @@ class ApiController extends Controller
             $snap->checkin = $pendaftar->checkin;
             $snap->note = '*Event belum berlangsung';
             // return response()->json($snap);
-            return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            // return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            return Response::json([
+                'data' => '*Event belum berlangsung'
+            ], 403);
         }
         if (date('Y-m-d') > $tanggal_selesai) {
             $snap = new stdClass();
@@ -198,13 +204,19 @@ class ApiController extends Controller
             $snap->checkin = $pendaftar->checkin;
             $snap->note = '*Tiket Kedaluwarsa';
             // return response()->json($snap);
-            return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            // return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            return Response::json([
+                'data' => '*Tiket Kedaluwarsa'
+            ], 403);
         }
         // var_dump( $pendaftar );
         if (empty($pendaftar)) {
             $snap = new stdClass();
             $snap->data = 'QR not Found';
-            return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            // return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            return Response::json([
+                'data' => 'QR not Found'
+            ], 403);
         }
         if ($pendaftar->checkin == 'sudah-note') {
             // $pendaftar->update(['checkin' => 'sudah']);
@@ -239,16 +251,13 @@ class ApiController extends Controller
             // orWhere('pic_assign', '')
             ->first();
         if (empty($pendaftar)) {
-            $snap = new stdClass();
-            $snap->data = 'QR not Found';
-            return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            return Response::json([
+                'data' => 'QR not Found'
+            ], 403);
         }
 
         $pendaftar = TiketQR::where('no_tiket', $request->input('no_tiket'))->first();
         if (!empty($pendaftar)) {
-            $snap = new stdClass();
-            $snap->data = 'Tiket sudah di assign';
-            // return response(Response::HTTP_FORBIDDEN)->json($snap);
             return Response::json([
                 'data' => 'Tiket sudah di assign'
             ], 403);
@@ -270,7 +279,10 @@ class ApiController extends Controller
         if (empty($pendaftar)) {
             $snap = new stdClass();
             $snap->data = 'Tiket not Found';
-            return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            // return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            return Response::json([
+                'data' => 'Tiket not Found'
+            ], 403);
         }
         $snap = new stdClass();
         // if ($pendaftar->checkin == null) $pendaftar->checkin = 'belum';
@@ -286,13 +298,19 @@ class ApiController extends Controller
         if (empty($pendaftar)) {
             $snap = new stdClass();
             $snap->data = 'Tiket not Found';
-            return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            // return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            return Response::json([
+                'data' => 'Tiket not Found'
+            ], 403);
         }
         $pendaftar = TiketQR::where('no_tiket', $request->input('no_tiket'))->first();
         if (!empty($pendaftar)) {
             $snap = new stdClass();
             $snap->data = 'Tiket sudah di assign';
-            return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            // return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            return Response::json([
+                'data' => 'Tiket sudah di assign'
+            ], 403);
         }
         $tiket = Tiket::where('no_tiket', $request->input('no_tiket'))->first();
         $pendaftar->update(['nama' =>  $tiket->nama, 'peserta_id' =>  $tiket->peserta_id, 'event_id' =>  $tiket->event_id, 'checkin' =>  'belum', 'status' =>  'assign', 'no_tiket' => $request->input('no_tiket'), 'pic_assign' => $request->input('uid')]);
@@ -322,7 +340,10 @@ class ApiController extends Controller
             // $snap->code = $request->input('qr');
             // $snap->checkin = $pendaftar->checkin;
             $snap->data = 'QR not Found';
-            return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            // return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            return Response::json([
+                'data' => 'QR not Found'
+            ], 403);
         }
         // $pendaftar = TiketQR::where('email', $request->input('qr'))->where('no_tiket', '!=', 'generate')->first();
         // $tanggal_mulai = Event::find($pendaftar->event_id)->tanggal_mulai;
@@ -350,7 +371,10 @@ class ApiController extends Controller
             // $snap->code = $request->input('qr');
             // $snap->checkin = $pendaftar->checkin;
             $snap->data = 'QR not Found';
-            return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            // return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            return Response::json([
+                'data' => 'QR not Found'
+            ], 403);
         }
         $pendaftar->update(['checkin' => 'terpakai', 'pic_checkout' => $request->input('uid')]);
         $snap = new stdClass();
@@ -367,7 +391,10 @@ class ApiController extends Controller
             // $snap->code = $request->input('qr');
             // $snap->checkin = $pendaftar->checkin;
             $snap->data = 'QR not Found';
-            return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            // return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            return Response::json([
+                'data' => 'QR not Found'
+            ], 403);
         }
         $pendaftar->update(['checkin' => 'sudah-note']);
         $snap = new stdClass();
@@ -452,7 +479,10 @@ class ApiController extends Controller
         if ($e_user == null) {
             $snap = new stdClass();
             $snap->data = 'Profile tidak ada';
-            return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            // return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            return Response::json([
+                'data' => 'Profile tidak ada';
+            ], 403);
         }
         $request = $_GET['uid'];
         $user = User::with('roles')->where(
@@ -504,7 +534,10 @@ class ApiController extends Controller
         if (empty($user)) {
             $snap = new stdClass();
             $snap->data = 'user tidak terdaftar';
-            return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            // return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+            return Response::json([
+                'data' => 'user tidak terdaftar';
+            ], 403);
         }
 
         $transaksi = Transaksi::where(
