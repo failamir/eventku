@@ -481,7 +481,7 @@ class ApiController extends Controller
             $snap->data = 'Profile tidak ada';
             // return response(json_encode($snap), Response::HTTP_FORBIDDEN);
             return Response::json([
-                'data' => 'Profile tidak ada';
+                'data' => 'Profile tidak ada'
             ], 403);
         }
         $request = $_GET['uid'];
