@@ -366,7 +366,7 @@ class ApiController extends Controller
                 'email'    => $request->input('email'),
                 'name'    => $request->input('name'),
                 'password' => $request->input('uid'),
-                // 'password' => $request->input( 'no_hp' ),
+                'deleted_at' => null,
             ]);
             // $user->assignRole( 'User' );
             $e_user->roles()->sync(2);
