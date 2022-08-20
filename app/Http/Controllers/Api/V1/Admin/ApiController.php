@@ -247,7 +247,10 @@ class ApiController extends Controller
         if (!empty($pendaftar)) {
             $snap = new stdClass();
             $snap->data = 'Tiket sudah di assign';
-            return response(Response::HTTP_FORBIDDEN)->json($snap);
+            // return response(Response::HTTP_FORBIDDEN)->json($snap);
+            return Response::json([
+                'data' => 'Tiket sudah di assign'
+            ], 403);
         }
 
         $snap = new stdClass();
