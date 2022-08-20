@@ -344,6 +344,7 @@ class ApiController extends Controller
         // var_dump($e_user);
 
         if ($e_user == null) {
+            $snap = new stdClass();
             $user = User::create([
                 'uid'     => $request->input('uid'),
                 'email'    => $request->input('email'),
@@ -354,7 +355,7 @@ class ApiController extends Controller
             // $user->assignRole( 'User' );
             $user->roles()->sync(2);
 
-            $snap = new stdClass();
+            
             $snap->data = 'success daftar';
             return response()->json($snap);
             // echo 000;
