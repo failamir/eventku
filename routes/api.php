@@ -19,7 +19,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin'], 
     Route::post('scan', 'ApiController@scan')->name('scan');
 // >>>>>>> 61769f3d858bf895512ccbe495ca1f5dd4c7b7ff
     Route::post('checkin', 'ApiController@checkin')->name('checkin');
-    Route::post('qrcheck', 'ApiController@qrcheck')->name('qrcheck');
+    Route::post('qrcheck', 'ApiController@qrcheckin')->name('qrcheck');
     Route::post('status_tiket', 'ApiController@status_tiket')->name('status_tiket');
     Route::post('checkin2', 'ApiController@checkin2')->name('checkin2');
     Route::post('checkout', 'ApiController@checkout')->name('checkout');

@@ -178,10 +178,10 @@ class ApiController extends Controller
         return response()->json($snap);
     }
 
-    public function qrcheck(Request $request)
+    public function qrcheckin(Request $request)
     {
         // $pendaftar = TiketQR::where('email', $request->input('qr'))->first();
-        $pendaftar = TiketQR::where('email', $request->input('qr'))->where('no_tiket', '!=', 'generate')->first();
+        $pendaftar = Tiket::where('qr', $request->input('qr'))->where('no_tiket', '!=', 'generate')->withTrashed()->first();
         $tanggal_mulai = Event::find($pendaftar->event_id)->tanggal_mulai;
         $tanggal_selesai = Event::find($pendaftar->event_id)->tanggal_selesai;
             // var_dump($tanggal_mulai);
