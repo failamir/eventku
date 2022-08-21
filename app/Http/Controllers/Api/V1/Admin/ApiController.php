@@ -249,7 +249,6 @@ class ApiController extends Controller
         $pendaftar = TiketQR::where('email', $request->input('qr'))->orWhere('qr', $request->input('qr'))->first();
             // where('pic_assign', NULL)->
             // orWhere('pic_assign', '')
-            ->first();
         if (empty($pendaftar)) {
             return Response::json([
                 // 'data' => 'QR not Found'
