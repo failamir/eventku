@@ -180,8 +180,8 @@ class ApiController extends Controller
 
     public function qrcheckin(Request $request)
     {
-        // $pendaftar = TiketQR::where('email', $request->input('qr'))->first();
-        $pendaftar = Tiket::where('email', $request->input('qr'))->orWhere('qr', $request->input('qr'))->where('no_tiket', '!=', 'generate')->withTrashed()->first();
+        // $pendaftar = Tiket::where('email', $request->input('qr'))->first();
+        $pendaftar = TiketQR::where('qr', $request->input('qr'))->orWhere('email', $request->input('qr'))->where('no_tiket', '!=', 'generate')->withTrashed()->first();
         if(empty($pendaftar)){
             return Response::json([
                 'data' => 'QR tidak ditemukan'
