@@ -188,14 +188,14 @@ class ApiController extends Controller
             ], 403);
         }
         $tanggal_mulai = Event::find($pendaftar->event_id)->tanggal_mulai;
-        $date=$tanggal_mulai;
-        $tanggal_mulai = date_add($date,date_interval_create_from_date_string("1 days"));
-
+        
         $tanggal_selesai = Event::find($pendaftar->event_id)->tanggal_selesai;
             // var_dump($tanggal_mulai);
             // var_dump($tanggal_selesai);
             // var_dump(date('Y-m-d'));
-        if ( $tanggal_mulai < date('Y-m-d')) {
+            // $datenow = date('Y-m-d');
+            $datenow = date('Y-m-d', strtotime('+1 days'));
+        if ( $tanggal_mulai < $datenow) {
             $snap = new stdClass();
             $snap->code = $request->input('qr');
             $snap->checkin = $pendaftar->checkin;
@@ -206,7 +206,7 @@ class ApiController extends Controller
                 'data' => '*Event belum berlangsung'
             ], 403);
         }
-        if ( date('Y-m-d') > $tanggal_selesai) {
+        if ( $datenow > $tanggal_selesai) {
             $snap = new stdClass();
             $snap->code = $request->input('qr');
             $snap->checkin = $pendaftar->checkin;
