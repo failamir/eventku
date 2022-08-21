@@ -182,6 +182,11 @@ class ApiController extends Controller
     {
         // $pendaftar = TiketQR::where('email', $request->input('qr'))->first();
         $pendaftar = Tiket::where('qr', $request->input('qr'))->where('no_tiket', '!=', 'generate')->withTrashed()->first();
+        if(empty($pendaftar)){
+            return Response::json([
+                'data' => 'QR tidak ditemukan'
+            ], 403);
+        }
         $tanggal_mulai = Event::find($pendaftar->event_id)->tanggal_mulai;
         $tanggal_selesai = Event::find($pendaftar->event_id)->tanggal_selesai;
             // var_dump($tanggal_mulai);
