@@ -189,9 +189,9 @@ class ApiController extends Controller
         }
         $tanggal_mulai = Event::find($pendaftar->event_id)->tanggal_mulai;
         $tanggal_selesai = Event::find($pendaftar->event_id)->tanggal_selesai;
-            var_dump($tanggal_mulai);
-            var_dump($tanggal_selesai);
-            var_dump(date('Y-m-d'));
+            // var_dump($tanggal_mulai);
+            // var_dump($tanggal_selesai);
+            // var_dump(date('Y-m-d'));
         if ( $tanggal_mulai < date('Y-m-d')) {
             $snap = new stdClass();
             $snap->code = $request->input('qr');
@@ -203,7 +203,7 @@ class ApiController extends Controller
                 'data' => '*Event belum berlangsung'
             ], 403);
         }
-        if ($tanggal_selesai > date('Y-m-d')) {
+        if ( date('Y-m-d') > $tanggal_selesai) {
             $snap = new stdClass();
             $snap->code = $request->input('qr');
             $snap->checkin = $pendaftar->checkin;
