@@ -237,6 +237,14 @@ class ApiController extends Controller
             $snap->note = '*There’s a problem with this QR, hold on and make a data validation';
             return response()->json($snap);
         }
+        if ($pendaftar->checkin == 'terpakai') {
+            // $pendaftar->update(['checkin' => 'sudah']);
+            $snap = new stdClass();
+            $snap->code = $request->input('qr');
+            $snap->checkin = $pendaftar->checkin;
+            $snap->note = 'terpakai';
+            return response()->json($snap);
+        } 
         if ($pendaftar->checkin == 'sudah') {
             // $pendaftar->update(['checkin' => 'sudah']);
             $snap = new stdClass();
