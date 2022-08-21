@@ -188,7 +188,7 @@ class ApiController extends Controller
             ], 403);
         }
         $tanggal_mulai = Event::find($pendaftar->event_id)->tanggal_mulai;
-        $date=strtotime($tanggal_mulai);
+        $date=$tanggal_mulai;
         $tanggal_mulai = date_add($date,date_interval_create_from_date_string("1 days"));
 
         $tanggal_selesai = Event::find($pendaftar->event_id)->tanggal_selesai;
