@@ -303,7 +303,7 @@ class ApiController extends Controller
                 'data' => 'Tiket not Found'
             ], 403);
         }
-        $pendaftar = TiketQR::where('no_tiket', $request->input('no_tiket'))->first();
+        $pendaftar = TiketQR::where('email', $request->input('qr'))->first();
         if (!empty($pendaftar)) {
             $snap = new stdClass();
             $snap->data = 'Tiket sudah di assign';
