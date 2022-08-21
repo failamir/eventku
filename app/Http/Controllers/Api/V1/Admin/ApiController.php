@@ -246,22 +246,23 @@ class ApiController extends Controller
 
     public function scanqr(Request $request)
     {
-        $pendaftar = TiketQR::where('email', $request->input('qr'))
+        $pendaftar = TiketQR::where('email', $request->input('qr'))->orWhere('qr', $request->input('qr'))->first();
             // where('pic_assign', NULL)->
             // orWhere('pic_assign', '')
             ->first();
         if (empty($pendaftar)) {
             return Response::json([
-                'data' => 'QR not Found'
-            ], 403);
-        }
-
-        $pendaftar = TiketQR::where('no_tiket', $request->input('no_tiket'))->first();
-        if (!empty($pendaftar)) {
-            return Response::json([
+                // 'data' => 'QR not Found'
                 'data' => 'Tiket sudah di assign'
             ], 403);
         }
+
+        // $pendaftar = TiketQR::where('qr', $request->input('qr'))->first();
+        // if (!empty($pendaftar)) {
+        //     return Response::json([
+        //         'data' => 'Tiket sudah di assign'
+        //     ], 403);
+        // }
 
         $snap = new stdClass();
         if ($pendaftar->checkin == null) $pendaftar->checkin = 'belum';
