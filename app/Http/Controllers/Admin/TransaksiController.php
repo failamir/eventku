@@ -59,7 +59,7 @@ class TransaksiController extends Controller
         $bank->account_name = 'PT. Pemuda Media';
         $bank->account_number = '123456789';
 
-        return view('admin.transaksis.withdraw', compact('events', 'tikets', 'transaksis', 'users'));
+        return view('admin.transaksis.withdraw', compact('events', 'tikets', 'transaksis', 'users','total_pemasukan','etiket_terjual','bank'));
     }
 
     public function create()
