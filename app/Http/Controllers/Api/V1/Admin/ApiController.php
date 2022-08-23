@@ -161,7 +161,7 @@ class ApiController extends Controller
             }
         }
         $c = TiketQR::with(['event'])->where('event_id', '!=', null)->where('pic_checkout', $s)->where('checkin', 'sudah')->orWhere('checkin', 'terpakai')->get();
-        $tcheckout = new stdClass();
+        $tcheckout = [];
         foreach ($c as $value) {
             if ($value->event != null) {
                 array_push($tcheckout, $value);
