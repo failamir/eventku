@@ -68,7 +68,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Transaksi
     Route::delete('transaksis/destroy', 'TransaksiController@massDestroy')->name('transaksis.massDestroy');
     Route::post('transaksis/media', 'TransaksiController@storeMedia')->name('transaksis.storeMedia');
-    Route::post('transaksis/withdraw', 'TransaksiController@withdraw')->name('transaksis.withdraw');
+    Route::get('transaksis/withdraw', 'TransaksiController@withdraw')->name('transaksis.withdraw');
     Route::post('transaksis/ckmedia', 'TransaksiController@storeCKEditorImages')->name('transaksis.storeCKEditorImages');
     Route::post('transaksis/parse-csv-import', 'TransaksiController@parseCsvImport')->name('transaksis.parseCsvImport');
     Route::post('transaksis/process-csv-import', 'TransaksiController@processCsvImport')->name('transaksis.processCsvImport');
