@@ -144,15 +144,30 @@ class ApiController extends Controller
         // abort_if ( Gate::denies( 'pendaftar_access' ), Response::HTTP_FORBIDDEN, '403 Forbidden' );
         $s = $_GET['uid'];
         // if ($s == 'sudahdanterpakai') {
-        $data = TiketQR::with(['event'])->where('pic_checkin', $s)->orWhere('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->orWhere('checkin', 'terpakai')->OrderBy('updated_at', 'ASC')->limit(20)->get();
-        // else {return new UserResource(Tiket::with(['event'])->where('checkin',$s)->OrderBy('updated_at','ASC')->paginate(10));}
-        // $data->each(function ($data) {
-        //     $data->event_id = 'sudah';
-        //     $data->save();
-        // });
+        $d = TiketQR::with(['event'])->where('pic_checkin', $s)->orWhere('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->orWhere('checkin', 'terpakai')->OrderBy('updated_at', 'ASC')->limit(20)->get();
+        $data = new stdClass();
+        foreach ($d as $value) {
+                if ($value->event != null) {
+                    array_push($data, $value);
+                }
+        }
         $snap = new stdClass();
-        $snap->checkin = count(TiketQR::with(['event'])->where('event_id','!=',null)->where('pic_checkin', $s)->where('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->get());
-        $snap->checkout = count(TiketQR::with(['event'])->where('event_id','!=',null)->where('pic_checkout', $s)->orWhere('checkin', 'terpakai')->get());
+        $c = TiketQR::with(['event'])->where('event_id','!=',null)->where('pic_checkin', $s)->where('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->get();
+        $tcheckin = new stdClass();
+        foreach ($c as $value) {
+                if ($value->event != null) {
+                    array_push($tcheckin, $value);
+                }
+        }
+        $c = TiketQR::with(['event'])->where('event_id','!=',null)->where('pic_checkout', $s)->where('checkin', 'sudah')->orWhere('checkin', 'terpakai')->get();
+        $tcheckout = new stdClass();
+        foreach ($c as $value) {
+                if ($value->event != null) {
+                    array_push($tcheckout, $value);
+                }
+        }
+        $snap->checkin = count($tcheckin);
+        $snap->checkout = count($tcheckout);
         $snap->data = $data;
 
         return response()->json($snap);
@@ -171,9 +186,23 @@ class ApiController extends Controller
         }
         // return new UserResource(Tiket::with(['event'])->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->where('qr', '!=', 'NULL')->OrderBy('updated_at', 'ASC')->limit(20)->get());
         $snap = new stdClass();
-        $snap->total = count(TiketQR::with(['event'])->where('event_id','!=',null)->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->OrderBy('updated_at', 'ASC')->get());
+        $t = TiketQR::with(['event'])->where('event_id','!=',null)->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->OrderBy('updated_at', 'ASC')->get();
+        $total = new stdClass();
+        foreach ($t as $value) {
+                if ($value->event != null) {
+                    array_push($total, $value);
+                }
+        }
+        $snap->total = count($total);
         // $snap->checkout = count(Tiket::where('pic_checkin', $s)->orWhere('checkin', 'terpakai')->get());
-        $snap->data = new UserResource(TiketQR::with(['event'])->where('event_id','!=',null)->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->OrderBy('updated_at', 'ASC')->limit(20)->get());
+        $d = TiketQR::with(['event'])->where('event_id','!=',null)->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->OrderBy('updated_at', 'ASC')->limit(20)->get();
+        $data = new stdClass();
+        foreach ($d as $value) {
+                if ($value->event != null) {
+                    array_push($data, $value);
+                }
+        }
+        $snap->data = new UserResource();
 
         return response()->json($snap);
     }
@@ -575,12 +604,9 @@ class ApiController extends Controller
         foreach ($transaksi as $value) {
             foreach ($value->tikets as $d) {
                 $t = Tiket::with('event')->where('event_id','!=',null)->find($d->id);
-                $tiket[] = $t;
-            }
-            // $value->tiket = Tiket::where(
-            //     'id',  $value->tiket_id
-            // )->first();
-            // $tiket->data = $user;
+                if ($t->event != null) {
+                    array_push($tiket, $t);
+                }
         }
 
         // $tiket = Tiket::where(
