@@ -171,9 +171,9 @@ class ApiController extends Controller
         }
         // return new UserResource(Tiket::with(['event'])->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->where('qr', '!=', 'NULL')->OrderBy('updated_at', 'ASC')->limit(20)->get());
         $snap = new stdClass();
-        $snap->total = count(TiketQR::with(['event'])->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->OrderBy('updated_at', 'ASC')->get());
+        $snap->total = count(TiketQR::with(['event'])->where('event','!=',null)->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->OrderBy('updated_at', 'ASC')->get());
         // $snap->checkout = count(Tiket::where('pic_checkin', $s)->orWhere('checkin', 'terpakai')->get());
-        $snap->data = new UserResource(TiketQR::with(['event'])->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->OrderBy('updated_at', 'ASC')->limit(20)->get());
+        $snap->data = new UserResource(TiketQR::with(['event'])->where('event','!=',null)->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->OrderBy('updated_at', 'ASC')->limit(20)->get());
 
         return response()->json($snap);
     }
