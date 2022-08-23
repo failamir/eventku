@@ -29,6 +29,7 @@ use App\Models\Tiket;
 use App\Models\TiketQR;
 // use Dotenv\Validator;
 use Response;
+
 date_default_timezone_set("Asia/Jakarta");
 
 class ApiController extends Controller
@@ -147,24 +148,24 @@ class ApiController extends Controller
         $d = TiketQR::with(['event'])->where('pic_checkin', $s)->orWhere('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->orWhere('checkin', 'terpakai')->OrderBy('updated_at', 'ASC')->limit(20)->get();
         $data = new stdClass();
         foreach ($d as $value) {
-                if ($value->event != null) {
-                    array_push($data, $value);
-                }
+            if ($value->event != null) {
+                array_push($data, $value);
+            }
         }
         $snap = new stdClass();
-        $c = TiketQR::with(['event'])->where('event_id','!=',null)->where('pic_checkin', $s)->where('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->get();
+        $c = TiketQR::with(['event'])->where('event_id', '!=', null)->where('pic_checkin', $s)->where('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->get();
         $tcheckin = new stdClass();
         foreach ($c as $value) {
-                if ($value->event != null) {
-                    array_push($tcheckin, $value);
-                }
+            if ($value->event != null) {
+                array_push($tcheckin, $value);
+            }
         }
-        $c = TiketQR::with(['event'])->where('event_id','!=',null)->where('pic_checkout', $s)->where('checkin', 'sudah')->orWhere('checkin', 'terpakai')->get();
+        $c = TiketQR::with(['event'])->where('event_id', '!=', null)->where('pic_checkout', $s)->where('checkin', 'sudah')->orWhere('checkin', 'terpakai')->get();
         $tcheckout = new stdClass();
         foreach ($c as $value) {
-                if ($value->event != null) {
-                    array_push($tcheckout, $value);
-                }
+            if ($value->event != null) {
+                array_push($tcheckout, $value);
+            }
         }
         $snap->checkin = count($tcheckin);
         $snap->checkout = count($tcheckout);
@@ -186,21 +187,21 @@ class ApiController extends Controller
         }
         // return new UserResource(Tiket::with(['event'])->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->where('qr', '!=', 'NULL')->OrderBy('updated_at', 'ASC')->limit(20)->get());
         $snap = new stdClass();
-        $t = TiketQR::with(['event'])->where('event_id','!=',null)->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->OrderBy('updated_at', 'ASC')->get();
+        $t = TiketQR::with(['event'])->where('event_id', '!=', null)->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->OrderBy('updated_at', 'ASC')->get();
         $total = new stdClass();
         foreach ($t as $value) {
-                if ($value->event != null) {
-                    array_push($total, $value);
-                }
+            if ($value->event != null) {
+                array_push($total, $value);
+            }
         }
         $snap->total = count($total);
         // $snap->checkout = count(Tiket::where('pic_checkin', $s)->orWhere('checkin', 'terpakai')->get());
-        $d = TiketQR::with(['event'])->where('event_id','!=',null)->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->OrderBy('updated_at', 'ASC')->limit(20)->get();
+        $d = TiketQR::with(['event'])->where('event_id', '!=', null)->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->OrderBy('updated_at', 'ASC')->limit(20)->get();
         $data = new stdClass();
         foreach ($d as $value) {
-                if ($value->event != null) {
-                    array_push($data, $value);
-                }
+            if ($value->event != null) {
+                array_push($data, $value);
+            }
         }
         $snap->data = new UserResource();
 
@@ -211,23 +212,23 @@ class ApiController extends Controller
     {
         // $pendaftar = Tiket::where('email', $request->input('qr'))->first();
         $pendaftar = TiketQR::where('qr', $request->input('qr'))->orWhere('email', $request->input('qr'))->where('no_tiket', '!=', 'generate')->withTrashed()->first();
-        if(empty($pendaftar)){
+        if (empty($pendaftar)) {
             return Response::json([
                 'data' => 'QR tidak ditemukan'
             ], 403);
         }
         $tanggal_mulai = Event::find($pendaftar->event_id)->tanggal_mulai;
-        
+
         $tanggal_selesai = Event::find($pendaftar->event_id)->tanggal_selesai;
-            
-            $datenow = date('Y-m-d', strtotime('+1 days')); 
 
-            // var_dump(date('Y-m-d'));
-            // var_dump(date('Y-m-d', strtotime('+1 days')));
-            // var_dump($tanggal_mulai);
-            // var_dump($tanggal_selesai);
+        $datenow = date('Y-m-d', strtotime('+1 days'));
 
-        if ( $datenow < $tanggal_mulai) {
+        // var_dump(date('Y-m-d'));
+        // var_dump(date('Y-m-d', strtotime('+1 days')));
+        // var_dump($tanggal_mulai);
+        // var_dump($tanggal_selesai);
+
+        if ($datenow < $tanggal_mulai) {
             $snap = new stdClass();
             $snap->code = $request->input('qr');
             $snap->checkin = $pendaftar->checkin;
@@ -238,7 +239,7 @@ class ApiController extends Controller
                 'data' => '*Event belum berlangsung'
             ], 403);
         }
-        if ( $datenow > $tanggal_selesai) {
+        if ($datenow > $tanggal_selesai) {
             $snap = new stdClass();
             $snap->code = $request->input('qr');
             $snap->checkin = $pendaftar->checkin;
@@ -273,7 +274,7 @@ class ApiController extends Controller
             $snap->checkin = $pendaftar->checkin;
             $snap->note = 'terpakai';
             return response()->json($snap);
-        } 
+        }
         if ($pendaftar->checkin == 'sudah') {
             // $pendaftar->update(['checkin' => 'sudah']);
             $snap = new stdClass();
@@ -295,8 +296,8 @@ class ApiController extends Controller
     public function scanqr(Request $request)
     {
         $pendaftar = TiketQR::where('email', $request->input('qr'))->orWhere('qr', $request->input('qr'))->first();
-            // where('pic_assign', NULL)->
-            // orWhere('pic_assign', '')
+        // where('pic_assign', NULL)->
+        // orWhere('pic_assign', '')
         if (empty($pendaftar)) {
             return Response::json([
                 // 'data' => 'QR not Found'
@@ -474,7 +475,7 @@ class ApiController extends Controller
             // $user->assignRole( 'User' );
             $user->roles()->sync(2);
 
-            
+
             $snap->data = 'success daftar';
             return response()->json($snap);
             // echo 000;
@@ -497,7 +498,8 @@ class ApiController extends Controller
     public function updateprofile(Request $request)
     {
         $e_user = User::where(
-            'uid',$request->input('uid')
+            'uid',
+            $request->input('uid')
             // 'password' => $request->input( 'no_hp' ),
         )->first();
 
@@ -603,10 +605,11 @@ class ApiController extends Controller
 
         foreach ($transaksi as $value) {
             foreach ($value->tikets as $d) {
-                $t = Tiket::with('event')->where('event_id','!=',null)->find($d->id);
+                $t = Tiket::with('event')->where('event_id', '!=', null)->find($d->id);
                 if ($t->event != null) {
                     array_push($tiket, $t);
                 }
+            }
         }
 
         // $tiket = Tiket::where(
