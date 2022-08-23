@@ -550,7 +550,7 @@ class ApiController extends Controller
 
         $snap = new stdClass();
         $snap->data = $user;
-        $snap->tiket = count( Tiket::where('peserta_id', $user->id)->where('status','success')->get());
+        $snap->tiket = count( Tiket::where('peserta_id', $user->id)->where('status_payment','success')->get());
         return response()->json($snap);
     }
 
