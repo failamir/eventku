@@ -395,6 +395,11 @@ class ApiController extends Controller
                 'data' => 'QR not Found'
             ], 403);
         }
+        // if(Event::where('id',$pendaftar->event_id)->first()->tanggal_selesai > date('Y-m-d')){
+        //     $snap = new stdClass();
+        //     $snap->data = 'QR belum di checkin';
+        //     return response()->json($snap);
+        // }
         $pendaftar->update(['checkin' => 'terpakai', 'pic_checkout' => $request->input('uid')]);
         $snap = new stdClass();
         $snap->data = 'success';
