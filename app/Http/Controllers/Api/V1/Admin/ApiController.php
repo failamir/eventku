@@ -151,8 +151,8 @@ class ApiController extends Controller
         //     $data->save();
         // });
         $snap = new stdClass();
-        $snap->checkin = count(TiketQR::with(['event'])->where('event','!=',null)->where('pic_checkin', $s)->where('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->get());
-        $snap->checkout = count(TiketQR::with(['event'])->where('event','!=',null)->where('pic_checkout', $s)->orWhere('checkin', 'terpakai')->get());
+        $snap->checkin = count(TiketQR::with(['event'])->where('event_id','!=',null)->where('pic_checkin', $s)->where('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->get());
+        $snap->checkout = count(TiketQR::with(['event'])->where('event_id','!=',null)->where('pic_checkout', $s)->orWhere('checkin', 'terpakai')->get());
         $snap->data = $data;
 
         return response()->json($snap);
@@ -171,9 +171,9 @@ class ApiController extends Controller
         }
         // return new UserResource(Tiket::with(['event'])->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->where('qr', '!=', 'NULL')->OrderBy('updated_at', 'ASC')->limit(20)->get());
         $snap = new stdClass();
-        $snap->total = count(TiketQR::with(['event'])->where('event','!=',null)->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->OrderBy('updated_at', 'ASC')->get());
+        $snap->total = count(TiketQR::with(['event'])->where('event_id','!=',null)->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->OrderBy('updated_at', 'ASC')->get());
         // $snap->checkout = count(Tiket::where('pic_checkin', $s)->orWhere('checkin', 'terpakai')->get());
-        $snap->data = new UserResource(TiketQR::with(['event'])->where('event','!=',null)->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->OrderBy('updated_at', 'ASC')->limit(20)->get());
+        $snap->data = new UserResource(TiketQR::with(['event'])->where('event_id','!=',null)->where('no_tiket', '!=', 'generate')->where('pic_assign', $_GET['uid'])->OrderBy('updated_at', 'ASC')->limit(20)->get());
 
         return response()->json($snap);
     }
@@ -574,7 +574,7 @@ class ApiController extends Controller
 
         foreach ($transaksi as $value) {
             foreach ($value->tikets as $d) {
-                $t = Tiket::with('event')->find($d->id);
+                $t = Tiket::with('event')->where('event_id','!=',null)->find($d->id);
                 $tiket[] = $t;
             }
             // $value->tiket = Tiket::where(
