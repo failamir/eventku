@@ -47,6 +47,16 @@
                 <span class="help-block">{{ trans('cruds.sponsor.fields.status_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="posisi">{{ 'posisi' }}</label>
+                <input class="form-control {{ $errors->has('posisi') ? 'is-invalid' : '' }}" type="text" name="posisi" id="posisi" value="{{ old('posisi', $sponsor->posisi) }}">
+                @if($errors->has('posisi'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('posisi') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ 'posisi' }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

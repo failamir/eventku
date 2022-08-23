@@ -36,6 +36,7 @@ class Sponsor extends Model implements HasMedia
     protected $fillable = [
         'nama',
         'status',
+        'posisi',
         'created_at',
         'updated_at',
         'deleted_at',

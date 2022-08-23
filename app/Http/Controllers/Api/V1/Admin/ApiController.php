@@ -146,7 +146,7 @@ class ApiController extends Controller
         $s = $_GET['uid'];
         // if ($s == 'sudahdanterpakai') {
         $d = TiketQR::with(['event'])->where('pic_checkin', $s)->orWhere('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->orWhere('checkin', 'terpakai')->OrderBy('updated_at', 'ASC')->limit(20)->get();
-        $data = new stdClass();
+        $data = [];
         foreach ($d as $value) {
             if ($value->event != null) {
                 array_push($data, $value);
@@ -154,7 +154,7 @@ class ApiController extends Controller
         }
         $snap = new stdClass();
         $c = TiketQR::with(['event'])->where('event_id', '!=', null)->where('pic_checkin', $s)->where('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->get();
-        $tcheckin = new stdClass();
+        $tcheckin = [];
         foreach ($c as $value) {
             if ($value->event != null) {
                 array_push($tcheckin, $value);
