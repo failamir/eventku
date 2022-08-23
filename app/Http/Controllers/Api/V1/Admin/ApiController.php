@@ -545,11 +545,12 @@ class ApiController extends Controller
             $request
             // 'password' => $request->input( 'no_hp' ),
         )->first();
-        // $user->assignRole( 'User' );
+        
         // $user->roles()->sync( 2 );
 
         $snap = new stdClass();
         $snap->data = $user;
+        $snap->tiket = count( Tiket::where('uid', $user->uid)->where('status','success')->get());
         return response()->json($snap);
     }
 

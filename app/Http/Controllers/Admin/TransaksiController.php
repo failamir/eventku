@@ -26,7 +26,7 @@ class TransaksiController extends Controller
     {
         abort_if(Gate::denies('transaksi_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $transaksis = Transaksi::with(['peserta', 'tikets', 'event', 'created_by'])->get();
+        $transaksis = Transaksi::with(['peserta', 'tikets', 'event', 'created_by'])->where('type','!=','withdraw')->get();
 
         $users = User::get();
 
@@ -41,7 +41,7 @@ class TransaksiController extends Controller
     {
         abort_if(Gate::denies('transaksi_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $transaksis = Transaksi::with(['peserta', 'tikets', 'event', 'created_by'])->get();
+        $transaksis = Transaksi::with(['peserta', 'tikets', 'event', 'created_by'])->where('type','withdraw')->get();
 
         $users = User::get();
 
@@ -63,6 +63,31 @@ class TransaksiController extends Controller
         $events = Event::pluck('nama_event', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         return view('admin.transaksis.create', compact('events', 'pesertas', 'tikets'));
+    }
+
+    public function withdrawcreate()
+    {
+        abort_if(Gate::denies('transaksi_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $pesertas = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $tikets = Tiket::pluck('no_tiket', 'id');
+
+        $events = Event::pluck('nama_event', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('admin.transaksis.withdrawcreate', compact('events', 'pesertas', 'tikets'));
+    }
+
+    public function withdrawstore(StoreTransaksiRequest $request)
+    {
+        // dd($request->all());
+        $transaksi = Transaksi::create($request->all());
+        $transaksi->tikets()->sync($request->input('tikets', []));
+        if ($media = $request->input('ck-media', false)) {
+            Media::whereIn('id', $media)->update(['model_id' => $transaksi->id]);
+        }
+
+        return redirect()->route('admin.transaksis.index');
     }
 
     public function store(StoreTransaksiRequest $request)
