@@ -13,6 +13,55 @@
         </div>
     </div>
 @endcan
+<div class="col-lg-3">
+    <div class="card">
+        <div class="card-header">
+            Total Pemasukan
+        </div>
+
+        <div class="card-body">
+            
+            {{ $total_pemasukan }}
+        </div>
+    </div>
+</div>
+<div class="col-lg-3">
+    <div class="card">
+        <div class="card-header">
+            E-Tiket Terjual
+        </div>
+
+        <div class="card-body">
+            
+            {{ $etiket_terjual }}
+        </div>
+    </div>
+</div>
+<div class="col-lg-3">
+    <div class="card">
+        <div class="card-header">
+            {{ $bank->name }}
+            {{ $bank->account_number }}
+        </div>
+
+        <div class="card-body">
+            
+            {{ $bank->account_name }}
+        </div>
+    </div>
+</div>
+<div class="col-lg-3">
+    <div class="card">
+        <div class="card-header">
+            Dashboard
+        </div>
+
+        <div class="card-body">
+            
+            You are logged in!
+        </div>
+    </div>
+</div>
 <div class="card">
     <div class="card-header">
         {{ trans('cruds.transaksi.title_singular') }} {{ trans('global.list') }}

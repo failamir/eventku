@@ -15,6 +15,7 @@ use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use stdClass;
 use Symfony\Component\HttpFoundation\Response;
 
 class TransaksiController extends Controller
@@ -48,6 +49,15 @@ class TransaksiController extends Controller
         $tikets = Tiket::get();
 
         $events = Event::get();
+
+        $total_pemasukan = Transaksi::where('type','!=','withdraw')->where('status','success')->sum('amount');
+
+        $etiket_terjual = count(Tiket::where('status_payment','success')->get());
+
+        $bank = new stdClass();
+        $bank->name = 'Bank Mandiri';
+        $bank->account_name = 'PT. Pemuda Media';
+        $bank->account_number = '123456789';
 
         return view('admin.transaksis.withdraw', compact('events', 'tikets', 'transaksis', 'users'));
     }
@@ -87,7 +97,7 @@ class TransaksiController extends Controller
             Media::whereIn('id', $media)->update(['model_id' => $transaksi->id]);
         }
 
-        return redirect()->route('admin.transaksis.index');
+        return redirect()->route('admin.transaksis.withdraw');
     }
 
     public function store(StoreTransaksiRequest $request)

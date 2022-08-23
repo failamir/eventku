@@ -7,7 +7,7 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("admin.transaksis.store") }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("admin.transaksis.withdrawstore") }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label for="invoice">{{ 'ID Withdraw' }}</label>
