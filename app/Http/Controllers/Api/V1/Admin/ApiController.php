@@ -151,8 +151,8 @@ class ApiController extends Controller
         //     $data->save();
         // });
         $snap = new stdClass();
-        $snap->checkin = count(TiketQR::where('pic_checkin', $s)->where('event','!=',null)->where('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->get());
-        $snap->checkout = count(TiketQR::where('pic_checkout', $s)->where('event','!=',null)->orWhere('checkin', 'terpakai')->get());
+        $snap->checkin = count(TiketQR::with(['event'])->where('event','!=',null)->where('pic_checkin', $s)->where('checkin', 'sudah')->orWhere('checkin', 'sudah-note')->get());
+        $snap->checkout = count(TiketQR::with(['event'])->where('event','!=',null)->where('pic_checkout', $s)->orWhere('checkin', 'terpakai')->get());
         $snap->data = $data;
 
         return response()->json($snap);
