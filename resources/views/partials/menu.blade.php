@@ -86,6 +86,14 @@
                     {{ trans('cruds.transaksi.title') }}
                 </a>
             </li>
+            <li class="c-sidebar-nav-item">
+                <a href="{{ route("admin.transaksis.withdraw") }}" class="c-sidebar-nav-link {{ request()->is("admin/transaksis") || request()->is("admin/transaksis/*") ? "c-active" : "" }}">
+                    <i class="fa-fw fas fa-dollar-sign c-sidebar-nav-icon">
+
+                    </i>
+                    {{ 'Withdraw' }}
+                </a>
+            </li>
         @endcan
         @can('event_access')
             <li class="c-sidebar-nav-item">

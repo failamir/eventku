@@ -37,6 +37,21 @@ class TransaksiController extends Controller
         return view('admin.transaksis.index', compact('events', 'tikets', 'transaksis', 'users'));
     }
 
+    public function withdraw()
+    {
+        abort_if(Gate::denies('transaksi_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $transaksis = Transaksi::with(['peserta', 'tikets', 'event', 'created_by'])->get();
+
+        $users = User::get();
+
+        $tikets = Tiket::get();
+
+        $events = Event::get();
+
+        return view('admin.transaksis.withdraw', compact('events', 'tikets', 'transaksis', 'users'));
+    }
+
     public function create()
     {
         abort_if(Gate::denies('transaksi_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
