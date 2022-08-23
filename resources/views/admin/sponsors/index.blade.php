@@ -23,7 +23,7 @@
 
                         </th>
                         <th>
-                            {{ trans('cruds.sponsor.fields.posisi') }}
+                            {{ 'posisi' }}
                         </th>
                         <th>
                             {{ trans('cruds.sponsor.fields.nama') }}
