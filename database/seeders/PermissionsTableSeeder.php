@@ -264,6 +264,46 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 64,
+                'title' => 'qr_code_create',
+            ],
+            [
+                'id'    => 65,
+                'title' => 'qr_code_edit',
+            ],
+            [
+                'id'    => 66,
+                'title' => 'qr_code_show',
+            ],
+            [
+                'id'    => 67,
+                'title' => 'qr_code_delete',
+            ],
+            [
+                'id'    => 68,
+                'title' => 'qr_code_access',
+            ],
+            [
+                'id'    => 69,
+                'title' => 'withdraw_create',
+            ],
+            [
+                'id'    => 70,
+                'title' => 'withdraw_edit',
+            ],
+            [
+                'id'    => 71,
+                'title' => 'withdraw_show',
+            ],
+            [
+                'id'    => 72,
+                'title' => 'withdraw_delete',
+            ],
+            [
+                'id'    => 73,
+                'title' => 'withdraw_access',
+            ],
+            [
+                'id'    => 74,
                 'title' => 'profile_password_edit',
             ],
         ];

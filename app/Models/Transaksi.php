@@ -21,9 +21,9 @@ class Transaksi extends Model implements HasMedia
     use HasFactory;
 
     public const TYPE_SELECT = [
-        'cash'     => 'cash',
-        'transfer' => 'transfer',
-        'qris'     => 'qris',
+        'Cash'     => 'Cash',
+        'Transfer' => 'Transfer',
+        'QRIS'     => 'QRIS',
     ];
 
     public const STATUS_SELECT = [

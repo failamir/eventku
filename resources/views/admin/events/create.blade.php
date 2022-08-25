@@ -72,7 +72,7 @@
             </div>
             <div class="form-group">
                 <label for="deskripsi">{{ trans('cruds.event.fields.deskripsi') }}</label>
-                <textarea class="form-control {{ $errors->has('deskripsi') ? 'is-invalid' : '' }}" name="deskripsi" id="deskripsi">{!! old('deskripsi') !!}</textarea>
+                <textarea class="form-control ckeditor {{ $errors->has('deskripsi') ? 'is-invalid' : '' }}" name="deskripsi" id="deskripsi">{!! old('deskripsi') !!}</textarea>
                 @if($errors->has('deskripsi'))
                     <div class="invalid-feedback">
                         {{ $errors->first('deskripsi') }}
