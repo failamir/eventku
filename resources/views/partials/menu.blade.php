@@ -86,14 +86,6 @@
                     {{ trans('cruds.transaksi.title') }}
                 </a>
             </li>
-            <li class="c-sidebar-nav-item">
-                <a href="{{ route("admin.transaksis.withdraw") }}" class="c-sidebar-nav-link {{ request()->is("admin/transaksis") || request()->is("admin/transaksis/*") ? "c-active" : "" }}">
-                    <i class="fa-fw fas fa-dollar-sign c-sidebar-nav-icon">
-
-                    </i>
-                    {{ 'Withdraw' }}
-                </a>
-            </li>
         @endcan
         @can('event_access')
             <li class="c-sidebar-nav-item">
@@ -174,6 +166,26 @@
 
                     </i>
                     {{ trans('cruds.setting.title') }}
+                </a>
+            </li>
+        @endcan
+        @can('qr_code_access')
+            <li class="c-sidebar-nav-item">
+                <a href="{{ route("admin.qr-codes.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/qr-codes") || request()->is("admin/qr-codes/*") ? "c-active" : "" }}">
+                    <i class="fa-fw fas fa-qrcode c-sidebar-nav-icon">
+
+                    </i>
+                    {{ trans('cruds.qrCode.title') }}
+                </a>
+            </li>
+        @endcan
+        @can('withdraw_access')
+            <li class="c-sidebar-nav-item">
+                <a href="{{ route("admin.withdraws.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/withdraws") || request()->is("admin/withdraws/*") ? "c-active" : "" }}">
+                    <i class="fa-fw fas fa-money-bill-wave c-sidebar-nav-icon">
+
+                    </i>
+                    {{ trans('cruds.withdraw.title') }}
                 </a>
             </li>
         @endcan

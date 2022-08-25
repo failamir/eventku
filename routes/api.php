@@ -26,4 +26,10 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 
     // Setting
     Route::apiResource('settings', 'SettingApiController');
+
+    // Qr Code
+    Route::apiResource('qr-codes', 'QrCodeApiController');
+
+    // Withdraw
+    Route::apiResource('withdraws', 'WithdrawApiController');
 });
