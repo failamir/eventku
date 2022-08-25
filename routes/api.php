@@ -54,6 +54,13 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin'], 
     // Event
     Route::apiResource('events', 'EventApiController');
 
+    // Qr Code
+    Route::apiResource('qr-codes', 'QrCodeApiController');
+
+    // Withdraw
+    Route::apiResource('withdraws', 'WithdrawApiController');
+
+
 });
 
 // Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', 'middleware' => ['auth:sanctum']], function () {

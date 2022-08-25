@@ -87,7 +87,7 @@
                 </a>
             </li>
             <li class="c-sidebar-nav-item">
-                <a href="{{ route("admin.transaksis.withdraw") }}" class="c-sidebar-nav-link {{ request()->is("admin/transaksis") || request()->is("admin/transaksis/*") ? "c-active" : "" }}">
+                <a href="{{ route("admin.withdraws.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/withdraws") || request()->is("admin/withdraws/*") ? "c-active" : "" }}">
                     <i class="fa-fw fas fa-dollar-sign c-sidebar-nav-icon">
 
                     </i>
