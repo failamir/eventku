@@ -21,7 +21,7 @@ class SponsorController extends Controller
     {
         abort_if(Gate::denies('sponsor_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $sponsors = Sponsor::with(['media'])->orderBy('posisi','ASC')->get();
+        $sponsors = Sponsor::with(['media'])->get();
 
         return view('admin.sponsors.index', compact('sponsors'));
     }

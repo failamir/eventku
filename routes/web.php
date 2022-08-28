@@ -9,6 +9,7 @@ Route::get('/home', function () {
     return redirect()->route('admin.home');
 });
 
+Route::get('userVerification/{token}', 'UserVerificationController@approve')->name('userVerification');
 Auth::routes();
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
@@ -68,6 +69,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Transaksi
     Route::delete('transaksis/destroy', 'TransaksiController@massDestroy')->name('transaksis.massDestroy');
     Route::post('transaksis/media', 'TransaksiController@storeMedia')->name('transaksis.storeMedia');
+
     // Route::get('withdraw', 'TransaksiController@withdraw')->name('transaksis.withdraw');
     // Route::get('withdraw/create', 'TransaksiController@withdrawcreate')->name('transaksis.withdrawcreate');
     // Route::post('withdraw/store', 'TransaksiController@withdrawcreate')->name('transaksis.withdrawstore');
@@ -97,6 +99,18 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Setting
     Route::delete('settings/destroy', 'SettingController@massDestroy')->name('settings.massDestroy');
     Route::resource('settings', 'SettingController');
+
+    // Qr Code
+    Route::delete('qr-codes/destroy', 'QrCodeController@massDestroy')->name('qr-codes.massDestroy');
+    Route::post('qr-codes/parse-csv-import', 'QrCodeController@parseCsvImport')->name('qr-codes.parseCsvImport');
+    Route::post('qr-codes/process-csv-import', 'QrCodeController@processCsvImport')->name('qr-codes.processCsvImport');
+    Route::resource('qr-codes', 'QrCodeController');
+
+    // Withdraw
+    Route::delete('withdraws/destroy', 'WithdrawController@massDestroy')->name('withdraws.massDestroy');
+    Route::post('withdraws/parse-csv-import', 'WithdrawController@parseCsvImport')->name('withdraws.parseCsvImport');
+    Route::post('withdraws/process-csv-import', 'WithdrawController@processCsvImport')->name('withdraws.processCsvImport');
+    Route::resource('withdraws', 'WithdrawController');
 });
 
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
