@@ -18,6 +18,8 @@ class Tiket extends Model implements HasMedia
     use Auditable;
     use HasFactory;
 
+    public $timestamps = true;
+
     public const STATUS_SELECT = [
         'valid'   => 'valid',
         'unvalid' => 'unvalid',
@@ -84,14 +86,11 @@ class Tiket extends Model implements HasMedia
         'created_at',
         'updated_at',
         'deleted_at',
-<<<<<<< HEAD
         'pic_checkin',
         'pic_checkout',
         'pic_assign',
         'invoice',
         'total_bayar',
-=======
->>>>>>> 22c5f03b7501da2e6d2ee6d4c3823ad13724e281
     ];
 
     public function registerMediaConversions(Media $media = null): void

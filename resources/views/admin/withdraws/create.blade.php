@@ -3,21 +3,22 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.create') }} {{ trans('cruds.withdraw.title_singular') }}
+        {{-- {{ trans('global.create') }} {{ trans('cruds.withdraw.title_singular') }} --}}
+        Potongan Services Payment Midtrans 6% + Potongan Payout 1%
     </div>
 
     <div class="card-body">
         <form method="POST" action="{{ route("admin.withdraws.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
-                <label for="kode_withdraw">{{ trans('cruds.withdraw.fields.kode_withdraw') }}</label>
-                <input class="form-control {{ $errors->has('kode_withdraw') ? 'is-invalid' : '' }}" type="text" name="kode_withdraw" id="kode_withdraw" value="{{ old('kode_withdraw', '') }}">
-                @if($errors->has('kode_withdraw'))
+                {{-- <label for="kode_withdraw">{{ trans('cruds.withdraw.fields.kode_withdraw') }}</label> --}}
+                <input class="form-control {{ $errors->has('kode_withdraw') ? 'is-invalid' : '' }}" type="hidden" name="kode_withdraw" id="kode_withdraw" value="{{ old('kode_withdraw', '') }}">
+                {{-- @if($errors->has('kode_withdraw'))
                     <div class="invalid-feedback">
                         {{ $errors->first('kode_withdraw') }}
                     </div>
                 @endif
-                <span class="help-block">{{ trans('cruds.withdraw.fields.kode_withdraw_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.withdraw.fields.kode_withdraw_helper') }}</span> --}}
             </div>
             <div class="form-group">
                 <label for="tanggal_withdraw">{{ trans('cruds.withdraw.fields.tanggal_withdraw') }}</label>
@@ -40,7 +41,7 @@
                 <span class="help-block">{{ trans('cruds.withdraw.fields.jumlah_withdraw_helper') }}</span>
             </div>
             <div class="form-group">
-                <label>{{ trans('cruds.withdraw.fields.status') }}</label>
+                {{-- <label>{{ trans('cruds.withdraw.fields.status') }}</label>
                 <select class="form-control {{ $errors->has('status') ? 'is-invalid' : '' }}" name="status" id="status">
                     <option value disabled {{ old('status', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
                     @foreach(App\Models\Withdraw::STATUS_SELECT as $key => $label)
@@ -52,7 +53,7 @@
                         {{ $errors->first('status') }}
                     </div>
                 @endif
-                <span class="help-block">{{ trans('cruds.withdraw.fields.status_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.withdraw.fields.status_helper') }}</span> --}}
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">

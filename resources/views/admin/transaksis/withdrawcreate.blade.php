@@ -31,7 +31,7 @@
             </div>
             <div class="form-group">
                 <label for="amount">{{ 'Value' }}</label>
-                <input class="form-control {{ $errors->has('amount') ? 'is-invalid' : '' }}" type="text" name="a    mount" id="amount" value="{{ old('amount', '') }}">
+                <input class="form-control {{ $errors->has('amount') ? 'is-invalid' : '' }}" type="text" name="amount" id="amount" value="{{ old('amount', '') }}">
                 @if($errors->has('amount'))
                     <div class="invalid-feedback">
                         {{ $errors->first('amount') }}

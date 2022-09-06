@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'site_title' => 'Loud Island Fest',
+    'site_title' => 'EventKu',
 ];

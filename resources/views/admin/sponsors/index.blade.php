@@ -23,7 +23,7 @@
 
                         </th>
                         <th>
-                            {{ trans('cruds.sponsor.fields.id') }}
+                            {{ 'posisi' }}
                         </th>
                         <th>
                             {{ trans('cruds.sponsor.fields.nama') }}
@@ -46,7 +46,7 @@
 
                             </td>
                             <td>
-                                {{ $sponsor->id ?? '' }}
+                                {{ $sponsor->posisi ?? '' }}
                             </td>
                             <td>
                                 {{ $sponsor->nama ?? '' }}
