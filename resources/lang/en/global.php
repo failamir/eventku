@@ -13,7 +13,7 @@ return [
     'clear'                          => 'Clear',
     'downloadFile'                   => 'Download file',
     'edit'                           => 'Edit',
-    'emailVerificationSuccess'       => 'User email verified successfully',
+    'emailVerificationsuccess'       => 'User email verified successfully',
     'entries'                        => 'Entries',
     'filterDate'                     => 'Filter by date',
     'forgot_password'                => 'Forgot your password?',

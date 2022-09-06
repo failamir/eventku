@@ -15,6 +15,7 @@ use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use stdClass;
 use Symfony\Component\HttpFoundation\Response;
 
 class TransaksiController extends Controller
@@ -26,7 +27,7 @@ class TransaksiController extends Controller
     {
         abort_if(Gate::denies('transaksi_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $transaksis = Transaksi::with(['peserta', 'tikets', 'event', 'created_by'])->get();
+        $transaksis = Transaksi::with(['peserta', 'tikets', 'event', 'created_by'])->where('type','!=','withdraw')->get();
 
         $users = User::get();
 
@@ -35,6 +36,32 @@ class TransaksiController extends Controller
         $events = Event::get();
 
         return view('admin.transaksis.index', compact('events', 'tikets', 'transaksis', 'users'));
+    }
+
+    public function withdraw()
+    {
+        abort_if(Gate::denies('transaksi_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $transaksis = Transaksi::with(['peserta', 'tikets', 'event', 'created_by'])->where('type','withdraw')->get();
+
+        $users = User::get();
+
+        $tikets = Tiket::get();
+
+        $events = Event::get();
+
+        $total_pemasukan = Transaksi::where('status','success')->sum('amount');
+        $total_pemasukan = $total_pemasukan + Tiket::where('status_payment','LIKE', '%' . 'success' . '%')->sum('total_bayar');
+        // var_dump($total_pemasukan);die;
+
+        $etiket_terjual = count(Tiket::where('status_payment','success')->get());
+
+        $bank = new stdClass();
+        $bank->name = 'Bank Mandiri';
+        $bank->account_name = 'PT. Pemuda Media';
+        $bank->account_number = '123456789';
+
+        return view('admin.transaksis.withdraw', compact('events', 'tikets', 'transaksis', 'users','total_pemasukan','etiket_terjual','bank'));
     }
 
     public function create()
@@ -50,8 +77,34 @@ class TransaksiController extends Controller
         return view('admin.transaksis.create', compact('events', 'pesertas', 'tikets'));
     }
 
+    public function withdrawcreate()
+    {
+        abort_if(Gate::denies('transaksi_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $pesertas = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $tikets = Tiket::pluck('no_tiket', 'id');
+
+        $events = Event::pluck('nama_event', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('admin.transaksis.withdrawcreate', compact('events', 'pesertas', 'tikets'));
+    }
+
+    public function withdrawstore(StoreTransaksiRequest $request)
+    {
+        // dd($request->all());
+        $transaksi = Transaksi::create($request->all());
+        $transaksi->tikets()->sync($request->input('tikets', []));
+        if ($media = $request->input('ck-media', false)) {
+            Media::whereIn('id', $media)->update(['model_id' => $transaksi->id]);
+        }
+
+        return redirect()->route('admin.transaksis.withdraw');
+    }
+
     public function store(StoreTransaksiRequest $request)
     {
+        // dd($request->all());
         $transaksi = Transaksi::create($request->all());
         $transaksi->tikets()->sync($request->input('tikets', []));
         if ($media = $request->input('ck-media', false)) {

@@ -18,9 +18,12 @@ class Tiket extends Model implements HasMedia
     use Auditable;
     use HasFactory;
 
+    public $timestamps = true;
+
     public const STATUS_SELECT = [
         'valid'   => 'valid',
         'unvalid' => 'unvalid',
+        'assign' => 'assign',
     ];
 
     public const CHECKIN_SELECT = [
@@ -30,16 +33,32 @@ class Tiket extends Model implements HasMedia
     ];
 
     public const TYPE_PAYMENT_SELECT = [
+        'CASH'     => 'cash',
+        'Cash'     => 'cash',
         'cash'     => 'cash',
         'transfer' => 'transfer',
+        'Transfer' => 'transfer',
+        'Transfer ' => 'transfer',
+        ' Transfer ' => 'transfer',
+        'TRANSFER' => 'transfer',
+        'Tranfer' => 'transfer',
         'qris'     => 'qris',
+        'Free'     => 'Free',
+        'FREE'     => 'Free',
     ];
 
     public const STATUS_PAYMENT_SELECT = [
+        'Success' => 'success',
+        'SUCCESS' => 'success',
+        'Succsess' => 'success',
         'success' => 'success',
         'pending' => 'pending',
+        'Pending' => 'pending',
+        'PENDING' => 'pending',
         'cancel'  => 'cancel',
         'refund'  => 'refund',
+        'Free'     => 'Free',
+        'FREE'     => 'Free',
     ];
 
     public $table = 'tikets';
@@ -67,6 +86,11 @@ class Tiket extends Model implements HasMedia
         'created_at',
         'updated_at',
         'deleted_at',
+        'pic_checkin',
+        'pic_checkout',
+        'pic_assign',
+        'invoice',
+        'total_bayar',
     ];
 
     public function registerMediaConversions(Media $media = null): void

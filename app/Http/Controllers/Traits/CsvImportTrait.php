@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\Traits;
-
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
 use \SpreadsheetReader;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -46,6 +48,7 @@ trait CsvImportTrait
             $for_insert = array_chunk($insert, 100);
 
             foreach ($for_insert as $insert_item) {
+                var_dump($insert_item);
                 $model::insert($insert_item);
             }
 

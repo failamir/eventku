@@ -1,1 +1,5 @@
 [14-Aug-2022 16:36:37 UTC] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home/forkomdi/eventku.kardusinfo.com/app/Http/Controllers/Api/V1/Admin/ApiController.php on line 193
+[20-Aug-2022 02:48:35 UTC] PHP Fatal error:  Cannot use Response as Response because the name is already in use in /home/forkomdi/eventku.kardusinfo.com/app/Http/Controllers/Api/V1/Admin/ApiController.php on line 31
+[30-Aug-2022 07:37:01 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/forkomdi/eventku.kardusinfo.com/app/Http/Controllers/Traits/CsvImportTrait.php on line 5
+[30-Aug-2022 07:37:07 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/forkomdi/eventku.kardusinfo.com/app/Http/Controllers/Traits/CsvImportTrait.php on line 5
+[01-Sep-2022 13:09:03 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/forkomdi/eventku.kardusinfo.com/vendor/laravel/framework/src/Illuminate/Database/Connection.php on line 413

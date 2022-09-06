@@ -211,7 +211,9 @@ class ApiController extends Controller
     public function qrcheckin(Request $request)
     {
         // $pendaftar = Tiket::where('email', $request->input('qr'))->first();
-        $pendaftar = TiketQR::where('qr', $request->input('qr'))->orWhere('email', $request->input('qr'))->where('no_tiket', '!=', 'generate')->withTrashed()->first();
+        $pendaftar = TiketQR::where('qr', $request->input('qr'))->orWhere('email', $request->input('qr'))->where('no_tiket', '!=', 'generate')
+        // ->withTrashed()
+        ->first();
         if (empty($pendaftar)) {
             return Response::json([
                 'data' => 'QR tidak ditemukan'
@@ -221,35 +223,36 @@ class ApiController extends Controller
 
         $tanggal_selesai = Event::find($pendaftar->event_id)->tanggal_selesai;
 
-        $datenow = date('Y-m-d', strtotime('+1 days'));
+        $datenow = date('Y-m-d');
+        // strtotime('+1 days'));
 
         // var_dump(date('Y-m-d'));
         // var_dump(date('Y-m-d', strtotime('+1 days')));
         // var_dump($tanggal_mulai);
         // var_dump($tanggal_selesai);
 
-        if ($datenow < $tanggal_mulai) {
-            $snap = new stdClass();
-            $snap->code = $request->input('qr');
-            $snap->checkin = $pendaftar->checkin;
-            $snap->note = '*Event belum berlangsung';
-            // return response()->json($snap);
-            // return response(json_encode($snap), Response::HTTP_FORBIDDEN);
-            return Response::json([
-                'data' => '*Event belum berlangsung'
-            ], 403);
-        }
-        if ($datenow > $tanggal_selesai) {
-            $snap = new stdClass();
-            $snap->code = $request->input('qr');
-            $snap->checkin = $pendaftar->checkin;
-            $snap->note = '*Tiket Kedaluwarsa';
-            // return response()->json($snap);
-            // return response(json_encode($snap), Response::HTTP_FORBIDDEN);
-            return Response::json([
-                'data' => '*Tiket Kedaluwarsa'
-            ], 403);
-        }
+        // if ($datenow < $tanggal_mulai) {
+        //     $snap = new stdClass();
+        //     $snap->code = $request->input('qr');
+        //     $snap->checkin = $pendaftar->checkin;
+        //     $snap->note = '*Event belum berlangsung';
+        //     // return response()->json($snap);
+        //     // return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+        //     return Response::json([
+        //         'data' => '*Event belum berlangsung'
+        //     ], 403);
+        // }
+        // if ($datenow > $tanggal_selesai) {
+        //     $snap = new stdClass();
+        //     $snap->code = $request->input('qr');
+        //     $snap->checkin = $pendaftar->checkin;
+        //     $snap->note = '*Tiket Kedaluwarsa';
+        //     // return response()->json($snap);
+        //     // return response(json_encode($snap), Response::HTTP_FORBIDDEN);
+        //     return Response::json([
+        //         'data' => '*Tiket Kedaluwarsa'
+        //     ], 403);
+        // }
         // var_dump( $pendaftar );
         if (empty($pendaftar)) {
             $snap = new stdClass();
