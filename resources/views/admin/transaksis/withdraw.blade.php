@@ -20,8 +20,8 @@
         </div>
 
         <div class="card-body">
-            
-            {{ $total_pemasukan }}
+            @php $hasil_rupiah = "Rp " . number_format($total_pemasukan,2,',','.'); @endphp
+            <h3> {{ $hasil_rupiah }}</h3>
         </div>
     </div>
 {{-- </div>

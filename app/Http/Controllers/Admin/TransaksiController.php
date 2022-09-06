@@ -50,7 +50,9 @@ class TransaksiController extends Controller
 
         $events = Event::get();
 
-        $total_pemasukan = Transaksi::where('type','!=','withdraw')->where('status','success')->sum('amount');
+        $total_pemasukan = Transaksi::where('status','success')->sum('amount');
+        $total_pemasukan = $total_pemasukan + Tiket::where('status_payment','LIKE', '%' . 'success' . '%')->sum('total_bayar');
+        // var_dump($total_pemasukan);die;
 
         $etiket_terjual = count(Tiket::where('status_payment','success')->get());
 
