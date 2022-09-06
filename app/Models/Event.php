@@ -37,7 +37,6 @@ class Event extends Model implements HasMedia
         'nama_event',
         'event_code',
         'harga',
-        'status',
         'tanggal_mulai',
         'tanggal_selesai',
         'deskripsi',
