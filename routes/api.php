@@ -1,10 +1,6 @@
 <?php
 
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin'], function () {
-    // Lokasi event
-    Route::post('store_loc', 'ApiController@storeEventLocation');
-    Route::get('get_loc', 'ApiController@getEventLocation');
-
     // Pendaftar
     Route::post('beli', 'ApiController@beliApi')->name('beliApi');
     Route::post('daftar', 'ApiController@daftar')->name('daftar');
@@ -35,12 +31,6 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin'], 
     // Tiket
     Route::post('tikets/media', 'TiketApiController@storeMedia')->name('tikets.storeMedia');
     Route::apiResource('tikets', 'TiketApiController');
-
-    // Event Main
-    Route::get('all_main_event', 'ApiController@getVariantTicket');
-    Route::get('all_main_event/{id}', 'ApiController@getVariantTicketById');
-    Route::post('events_main/media', 'EventMainApiController@storeMedia')->name('events.storeMedia');
-    Route::apiResource('events_main', 'EventMainApiController');
 
     // Event
     Route::post('events/media', 'EventApiController@storeMedia')->name('events.storeMedia');

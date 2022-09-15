@@ -12,7 +12,6 @@ use App\Http\Requests\StorePendaftarRequest;
 use App\Http\Requests\UpdatePendaftarRequest;
 // use App\Http\Resources\Admin\PendaftarResource;
 use App\Http\Resources\Admin\UserResource;
-use App\Http\Resources\Admin\EventLocationResource;
 use App\Models\Event;
 // use App\Models\Pendaftar;
 use App\Models\Transaksi;
@@ -28,8 +27,6 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Tiket;
 use App\Models\TiketQR;
-use App\Models\EventLocation;
-use App\Models\EventMain;
 // use Dotenv\Validator;
 use Response;
 
@@ -65,6 +62,8 @@ class ApiController extends Controller
 
         return new UserResource(User::paginate(10));
     }
+
+
 
     public function create()
     {
@@ -1165,57 +1164,5 @@ class ApiController extends Controller
         $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
 
         return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
-    }
-
-    public function storeEventLocation(Request $request)
-    {
-        // $data = EventLocation::create([
-        //     'location' => $request->location,
-        //     'link' => $request->link,
-        //     'image' => $request->image,
-        // ]);
-
-        $data = EventLocation::create($request->all());
-
-        if ($request->input('image', false)) {
-            $data->addMedia(storage_path('tmp/uploads/' . basename($request->input('image'))))->toMediaCollection('image');
-        }
-
-        return (new EventLocationResource($data))
-            ->response()
-            ->setStatusCode(201);
-    }
-
-    public function getEventLocation(Request $request)
-    {
-        $getData = EventLocation::all();
-
-        return response()->json(['data' => $getData], 201); 
-    }
-
-    public function getVariantTicket()
-    {
-        // $mainEvent = EventMain::all();
-        // $variantTicket = Event::where('event_main_id', $mainEvent->id)->get();
-        // $eventVariant = Event::all();
-
-        $event = EventMain::with(['event'])->get();
-        
-        return response()->json([
-            "data" => $event
-        ])->setStatusCode(200);
-    }
-
-    public function getVariantTicketById($id)
-    {
-        // $mainEvent = EventMain::all();
-        // $variantTicket = Event::where('event_main_id', $mainEvent->id)->get();
-        // $eventVariant = Event::all();
-
-        $event = EventMain::with(['event'])->where('id', $id)->get();
-        
-        return response()->json([
-            "data" => $event
-        ])->setStatusCode(200);
     }
 }
