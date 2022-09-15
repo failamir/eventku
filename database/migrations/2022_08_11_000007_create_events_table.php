@@ -16,6 +16,7 @@ class CreateEventsTable extends Migration
             $table->datetime('tanggal_mulai')->nullable();
             $table->datetime('tanggal_selesai')->nullable();
             $table->longText('deskripsi')->nullable();
+            $table->string('event_main_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -41,6 +41,7 @@ class Event extends Model implements HasMedia
         'tanggal_mulai',
         'tanggal_selesai',
         'deskripsi',
+        'event_main_id',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -55,6 +56,16 @@ class Event extends Model implements HasMedia
     public function eventTransaksis()
     {
         return $this->hasMany(Transaksi::class, 'event_id', 'id');
+    }
+
+    public function eventLocation()
+    {
+        return $this->hasMany(EventLocation::class, 'location_id', 'id');
+    }
+
+    public function eventMain()
+    {
+        return $this->belongsTo(EventMain::class, 'event_main_id');
     }
 
     public function eventTikets()
